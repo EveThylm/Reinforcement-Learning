@@ -31,7 +31,7 @@ def entrenar(total_timesteps=1000000, modelo_path="modelo_ppo"):
         "MlpPolicy",
         env,
         verbose=1,
-        learning_rate=3e-4,
+        learning_rate=0.01,
         n_steps=2048,
         batch_size=64,
         n_epochs=10,

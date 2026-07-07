@@ -4,6 +4,7 @@ import time
 
 
 def evaluar(modelo_path="modelo_ppo", episodes=5, velocidad=0.5):
+    import pygame
     print("=== Evaluación del agente - Jump King ===")
 
     env = JumpKingEnv(render_mode="human")
@@ -14,6 +15,7 @@ def evaluar(modelo_path="modelo_ppo", episodes=5, velocidad=0.5):
     except FileNotFoundError:
         print(f"Error: No se encontró el modelo en {modelo_path}")
         print("Primero ejecuta: python entrenar_ppo.py")
+        env.close()
         return
 
     recompensas_totales = []
@@ -28,10 +30,14 @@ def evaluar(modelo_path="modelo_ppo", episodes=5, velocidad=0.5):
         print(f"\nEpisodio {ep + 1}/{episodes}")
 
         while not done:
-            for event in __import__("pygame").event.get():
-                if event.type == __import__("pygame").QUIT:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
                     env.close()
                     return
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        env.close()
+                        return
 
             accion, _ = modelo.predict(obs, deterministic=True)
             obs, recompensa, terminado, truncado, info = env.step(accion)
@@ -39,28 +45,18 @@ def evaluar(modelo_path="modelo_ppo", episodes=5, velocidad=0.5):
             pasos += 1
             done = terminado or truncado
 
-            env.ventana.fill((0, 0, 20))
-
-            env.mapa.dibujar(env.ventana, env.camara_y)
-            env.jugador.dibujar(env.ventana, env.camara_y)
-
-            font = __import__("pygame").font.SysFont(None, 30)
-            progreso = info.get("progreso", 0)
-            texto = font.render(
-                f"Episodio {ep + 1} | Progreso: {progreso}% | Pasos: {pasos}",
-                True,
-                (255, 255, 255),
-            )
-            env.ventana.blit(texto, (10, 10))
-
-            __import__("pygame").display.update()
-            time.sleep(1 / (velocidad * 60))
+            # La ventana ya se renderiza en env.step() con render_mode="human"
+            # Solo agregamos delay para visualizar
+            pygame.time.Clock().tick(int(velocidad * 60))
 
         recompensas_totales.append(recompensa_total)
         progresos.append(info.get("progreso", 0))
         print(
             f"  Recompensa: {recompensa_total:.1f} | Progreso final: {info.get('progreso', 0)}%"
         )
+
+        # Pausa entre episodios
+        time.sleep(1)
 
     print(f"\n--- Resultados ---")
     print(f"Promedio recompensa: {sum(recompensas_totales) / len(recompensas_totales):.1f}")

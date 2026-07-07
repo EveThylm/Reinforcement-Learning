@@ -217,8 +217,8 @@ class JumpKingEnv(gym.Env):
         if altura_actual < self.altura_minima_episodio:
             self.altura_minima_episodio = altura_actual
 
-        # Verificar fin del episodio
-        terminado = altura_actual >= self.meta_y
+        # Verificar fin del episodio (meta arriba, Y=50)
+        terminado = altura_actual <= self.meta_y
 
         # Límite de pasos (truncated)
         truncado = self.pasos >= 5000
@@ -343,8 +343,8 @@ class JumpKingEnv(gym.Env):
         # Costo por paso
         recompensa -= 0.1
 
-        # Meta alcanzada
-        if altura_actual >= self.meta_y:
+        # Meta alcanzada (Y=50 es la cumbre, arriba)
+        if altura_actual <= self.meta_y:
             recompensa += 1000.0
 
         # Caer al inicio
