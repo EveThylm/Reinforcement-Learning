@@ -37,12 +37,12 @@ def entrenar(total_timesteps=100000, modelo_path="modelo_ppo"):
         "MlpPolicy",
         env,
         verbose=1,
-        learning_rate=0.001,
-        n_steps=512,
-        batch_size=64,
+        learning_rate=0.0005,
+        n_steps=1024,
+        batch_size=128,
         n_epochs=10,
-        gamma=0.99,
-        ent_coef=0.05,  # Mayor exploración
+        gamma=0.995,
+        ent_coef=0.1,
         tensorboard_log="./logs/",
     )
 
@@ -62,7 +62,7 @@ def entrenar(total_timesteps=100000, modelo_path="modelo_ppo"):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--timesteps", type=int, default=100000)
+    parser.add_argument("--timesteps", type=int, default=200000)
     parser.add_argument("--model-path", type=str, default="modelo_ppo")
     args = parser.parse_args()
     entrenar(args.timesteps, args.model_path)

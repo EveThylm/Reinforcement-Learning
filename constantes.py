@@ -12,7 +12,7 @@ velocidad= 5
 
 # Física de salto
 gravedad= 0.5
-fuerza_salto_max= 12
+fuerza_salto_max= 16
 velocidad_max_caida= 15
 tiempo_carga_max= 40
 

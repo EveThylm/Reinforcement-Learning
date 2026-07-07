@@ -65,7 +65,6 @@ def cargar_animaciones():
 
 
 def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticiones=1):
-    """Evalúa una secuencia con render visual."""
     pygame.init()
     ventana = pygame.display.set_mode((constantes.ancho_ventana, constantes.alto_ventana))
     pygame.display.set_caption("Jump King - Evaluacion Evolutiva")
@@ -81,13 +80,9 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
         jugador.on_ground = True
         camara_y = 0
 
-        cargando = False
-        tiempo_carga = 0
-        direccion = 0
         accion_idx = 0
         frame_en_accion = 0
         altura_maxima = 2950
-        prev_y = jugador.forma.centery
 
         ejecutando = True
         while ejecutando:
@@ -103,77 +98,59 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
                         jugador = Personaje(60, 2930, animaciones)
                         jugador.on_ground = True
                         camara_y = 0
-                        cargando = False
-                        tiempo_carga = 0
                         accion_idx = 0
                         frame_en_accion = 0
-                        prev_y = jugador.forma.centery
                         print("Reiniciando...")
 
-            # Obtener accion actual
-            if accion_idx < len(secuencia):
-                accion = secuencia[accion_idx]
-            else:
-                accion = 0
+            accion = secuencia[accion_idx] if accion_idx < len(secuencia) else 0
 
-            # Procesar accion
-            if accion == 0:
-                if cargando:
-                    fuerza = min(tiempo_carga * (constantes.fuerza_salto_max / constantes.tiempo_carga_max), constantes.fuerza_salto_max)
-                    jugador.velocidad_y = -fuerza
-                    jugador.velocidad_x = direccion * constantes.velocidad
+            # Saltos directos
+            if jugador.on_ground:
+                if accion == 1:
+                    jugador.velocidad_y = -constantes.fuerza_salto_max
+                    jugador.velocidad_x = -8
                     jugador.on_ground = False
-                    cargando = False
-                    tiempo_carga = 0
-            elif accion == 1:
-                if jugador.on_ground and not cargando:
-                    cargando = True
-                    tiempo_carga = 0
-                    direccion = -1
-            elif accion == 2:
-                if jugador.on_ground and not cargando:
-                    cargando = True
-                    tiempo_carga = 0
-                    direccion = 1
-            elif accion == 3:
-                if jugador.on_ground and not cargando:
-                    cargando = True
-                    tiempo_carga = 0
-                    import random
-                    direccion = random.choice([-1, 1])
-
-            # Incrementar carga
-            if cargando:
-                tiempo_carga += 1
-                if tiempo_carga >= constantes.tiempo_carga_max:
-                    fuerza = constantes.fuerza_salto_max
-                    jugador.velocidad_y = -fuerza
-                    jugador.velocidad_x = direccion * constantes.velocidad
+                elif accion == 2:
+                    jugador.velocidad_y = -constantes.fuerza_salto_max
+                    jugador.velocidad_x = 8
                     jugador.on_ground = False
-                    cargando = False
-                    tiempo_carga = 0
 
             # Fisica
             jugador.aplicar_gravedad()
+            prev_y = jugador.forma.centery
             jugador.forma.y += jugador.velocidad_y
 
-            # Detectar suelo
-            jugador.on_ground = False
+            # Colision vertical
+            landed = False
             for plat in mapa.plataformas:
-                if (prev_y <= plat.rect.top and jugador.forma.bottom >= plat.rect.top and
-                    jugador.velocidad_y >= 0 and
-                    jugador.forma.right > plat.rect.left and 
-                    jugador.forma.left < plat.rect.right):
-                    jugador.forma.bottom = plat.rect.top
-                    jugador.velocidad_y = 0
-                    jugador.velocidad_x = 0
-                    jugador.on_ground = True
+                if jugador.forma.colliderect(plat.rect):
+                    if jugador.velocidad_y > 0 and prev_y <= plat.rect.top + 5:
+                        jugador.forma.bottom = plat.rect.top
+                        jugador.velocidad_y = 0
+                        jugador.velocidad_x = 0
+                        jugador.on_ground = True
+                        landed = True
+                    elif jugador.velocidad_y < 0:
+                        jugador.forma.top = plat.rect.bottom
+                        jugador.velocidad_y = 0
                     break
+            
+            if not landed and jugador.velocidad_y > 0:
+                jugador.on_ground = False
 
-            prev_y = jugador.forma.centery
-
-            # Movimiento horizontal (siempre)
+            # Movimiento horizontal
             jugador.forma.x += jugador.velocidad_x
+
+            # Colision horizontal
+            for plat in mapa.plataformas:
+                if jugador.forma.colliderect(plat.rect):
+                    if not jugador.on_ground:
+                        if jugador.velocidad_x > 0:
+                            jugador.forma.right = plat.rect.left
+                        elif jugador.velocidad_x < 0:
+                            jugador.forma.left = plat.rect.right
+                    jugador.velocidad_x = 0
+                    break
 
             # Limites
             if jugador.forma.left < 0:
@@ -187,9 +164,6 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
                 jugador.velocidad_y = 0
                 jugador.velocidad_x = 0
                 jugador.on_ground = True
-                cargando = False
-                tiempo_carga = 0
-                prev_y = jugador.forma.centery
 
             jugador.update()
 
@@ -197,11 +171,9 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
             target = jugador.forma.centery - constantes.alto_ventana // 2
             camara_y += (target - camara_y) * 0.1
 
-            # Actualizar altura
             if jugador.forma.centery < altura_maxima:
                 altura_maxima = jugador.forma.centery
 
-            # Avanzar accion
             frame_en_accion += 1
             if frame_en_accion >= frames_por_accion:
                 frame_en_accion = 0
@@ -209,31 +181,25 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
 
             # Dibujar
             ventana.fill(constantes.color_bg)
-
             for plat in mapa.plataformas:
                 rect_dibujar = plat.rect.copy()
                 rect_dibujar.y -= camara_y
                 pygame.draw.rect(ventana, (100, 200, 100), rect_dibujar)
-
             jugador.dibujar(ventana, camara_y)
 
-            # HUD
             font = pygame.font.SysFont(None, 30)
             progreso = max(0, min(100, int((2950 - altura_maxima) / (2950 - 50) * 100)))
-            accion_nombre = ["Idle", "Izq", "Der", "Rand"][accion]
+            accion_nombre = ["Idle", "IzqS", "DerS", "IzqM", "DerM", "IzqF", "DerF"][accion]
             texto = font.render(
                 f"Accion: {accion_nombre} ({accion_idx+1}/{len(secuencia)}) | Progreso: {progreso}% | Altura: {2950 - altura_maxima:.0f}px",
                 True, (255, 255, 255)
             )
             ventana.blit(texto, (10, 10))
-
             texto2 = font.render("ESC: Salir | R: Reiniciar", True, (180, 180, 180))
             ventana.blit(texto2, (10, 40))
-
             pygame.display.update()
             reloj.tick(int(velocidad * 60))
 
-            # Terminar si completo la secuencia
             if accion_idx >= len(secuencia):
                 print(f"Secuencia completada. Altura maxima: {2950 - altura_maxima:.0f}px | Progreso: {progreso}%")
                 time.sleep(2)
@@ -243,7 +209,6 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
 
 
 def cargar_secuencia():
-    """Carga la secuencia desde el archivo."""
     try:
         with open("mejor_secuencia.txt", "r") as f:
             secuencia_str = f.read().strip()
@@ -260,12 +225,11 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Evaluar mejor secuencia evolutiva")
-    parser.add_argument("--velocidad", type=float, default=0.5, help="Velocidad de visualizacion")
-    parser.add_argument("--repeticiones", type=int, default=1, help="Numero de repeticiones")
-    parser.add_argument("--frames", type=int, default=20, help="Frames por accion")
+    parser.add_argument("--velocidad", type=float, default=0.5)
+    parser.add_argument("--repeticiones", type=int, default=1)
+    parser.add_argument("--frames", type=int, default=20)
     args = parser.parse_args()
 
     secuencia = cargar_secuencia()
-
     if secuencia:
         evaluar_con_render(secuencia, args.frames, args.velocidad, args.repeticiones)

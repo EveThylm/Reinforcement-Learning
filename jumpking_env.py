@@ -36,21 +36,16 @@ class JumpKingEnv(gym.Env):
 
         self.mapa = self._crear_mapa()
 
-        self.observation_space = spaces.Box(low=-1.0, high=1.0, shape=(6,), dtype=np.float32)
-        self.action_space = spaces.Discrete(4)
+        self.observation_space = spaces.Box(low=-1.0, high=1.0, shape=(10,), dtype=np.float32)
+        self.action_space = spaces.Discrete(3)
 
         self.jugador = None
         self.camara_y = 0
         self.altura_inicial = 2950
         self.meta_y = 50
         self.pasos = 0
-        self._cargando = False
-        self._tiempo_carga = 0
-        self._direccion_salto = 0
-        self._en_aire = False
         self._altura_maxima = 2950
         self.plataformas_visitadas = set()
-        self._ultima_plataforma = -1
 
     def _crear_mapa(self):
         return Nivel([
@@ -100,98 +95,113 @@ class JumpKingEnv(gym.Env):
 
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
-        self.jugador = Personaje(50, 2930, self.animaciones)
+        self.jugador = Personaje(60, 2930, self.animaciones)
         self.jugador.on_ground = True
         self.camara_y = 0
         self.pasos = 0
-        self._cargando = False
-        self._tiempo_carga = 0
-        self._direccion_salto = 0
-        self._en_aire = False
         self._altura_maxima = 2950
         self.plataformas_visitadas = set()
-        self._ultima_plataforma = 0
         return self._obtener_observacion(), {}
 
     def _obtener_observacion(self):
         j = self.jugador
-        obs = np.zeros(6, dtype=np.float32)
+        obs = np.zeros(10, dtype=np.float32)
         obs[0] = j.forma.centery / constantes.alto_ventana
-        obs[1] = j.velocidad_y / 20.0
-        obs[2] = 1.0 if j.on_ground else 0.0
-        obs[3] = min(self._tiempo_carga / constantes.tiempo_carga_max, 1.0)
-        obs[4] = self._altura_maxima / constantes.alto_ventana
-        obs[5] = (j.forma.centery - self.meta_y) / (self.altura_inicial - self.meta_y)
+        obs[1] = j.forma.centerx / constantes.ancho_ventana
+        obs[2] = j.velocidad_y / 20.0
+        obs[3] = j.velocidad_x / 10.0
+        obs[4] = 1.0 if j.on_ground else 0.0
+
+        mejor_dist = float('inf')
+        mejor_x = 0
+        mejor_y = 0
+        for plat in self.mapa.plataformas:
+            if plat.rect.bottom < j.forma.centery:
+                dx = plat.rect.centerx - j.forma.centerx
+                dy = j.forma.centery - plat.rect.centery
+                dist = abs(dx) + abs(dy)
+                if dist < mejor_dist:
+                    mejor_dist = dist
+                    mejor_x = dx
+                    mejor_y = dy
+        obs[5] = mejor_x / constantes.ancho_ventana
+        obs[6] = mejor_y / constantes.alto_ventana
+
+        izq_x = -1.0
+        izq_y = 0.0
+        for plat in self.mapa.plataformas:
+            if plat.rect.right < j.forma.left and abs(plat.rect.centery - j.forma.centery) < 200:
+                izq_x = (j.forma.centerx - plat.rect.centerx) / constantes.ancho_ventana
+                izq_y = (j.forma.centery - plat.rect.centery) / constantes.alto_ventana
+                break
+        obs[7] = izq_x
+
+        der_x = -1.0
+        der_y = 0.0
+        for plat in self.mapa.plataformas:
+            if plat.rect.left > j.forma.right and abs(plat.rect.centery - j.forma.centery) < 200:
+                der_x = (plat.rect.centerx - j.forma.centerx) / constantes.ancho_ventana
+                der_y = (j.forma.centery - plat.rect.centery) / constantes.alto_ventana
+                break
+        obs[8] = der_x
+
+        obs[9] = (j.forma.centery - self.meta_y) / (self.altura_inicial - self.meta_y)
         return np.clip(obs, -1.0, 1.0)
 
     def step(self, action):
         self.pasos += 1
         altura_anterior = self.jugador.forma.centery
+        action = int(action)
 
-        # Procesar acción
-        if action == 0:
-            pass
-        elif action == 1:
-            if self.jugador.on_ground and not self._cargando:
-                self._cargando = True
-                self._tiempo_carga = 0
-                self._direccion_salto = -1
-        elif action == 2:
-            if self.jugador.on_ground and not self._cargando:
-                self._cargando = True
-                self._tiempo_carga = 0
-                self._direccion_salto = 1
-        elif action == 3:
-            if self.jugador.on_ground and not self._cargando:
-                self._cargando = True
-                self._tiempo_carga = 0
-                self._direccion_salto = random.choice([-1, 1])
-
-        # Cargar y saltar automáticamente
-        if self._cargando:
-            self._tiempo_carga += 1
-            if self._tiempo_carga >= 15:
-                fuerza = min(self._tiempo_carga * (constantes.fuerza_salto_max / constantes.tiempo_carga_max), constantes.fuerza_salto_max)
-                self.jugador.velocidad_y = -fuerza
-                self.jugador.velocidad_x = self._direccion_salto * constantes.velocidad
+        # Saltos directos (sin carga)
+        if self.jugador.on_ground:
+            if action == 1:
+                self.jugador.velocidad_y = -constantes.fuerza_salto_max
+                self.jugador.velocidad_x = -8
                 self.jugador.on_ground = False
-                self._cargando = False
-                self._tiempo_carga = 0
-                self._en_aire = True
+            elif action == 2:
+                self.jugador.velocidad_y = -constantes.fuerza_salto_max
+                self.jugador.velocidad_x = 8
+                self.jugador.on_ground = False
 
-        # Física
+        # Fisica
         self.jugador.aplicar_gravedad()
+        prev_y = self.jugador.forma.centery
         self.jugador.forma.y += self.jugador.velocidad_y
 
-        # Detectar suelo
-        self.jugador.on_ground = False
-        pies = pygame.Rect(self.jugador.forma.x, self.jugador.forma.bottom, self.jugador.forma.width, 4)
-        for plat in self.mapa.plataformas:
-            if pies.colliderect(plat.rect):
-                self.jugador.on_ground = True
-                if self.jugador.velocidad_y >= 0:
-                    self.jugador.forma.bottom = plat.rect.top
-                    self.jugador.velocidad_y = 0
-                    self._en_aire = False
-                break
-
-        # Colisiones
+        # Colision vertical
+        landed = False
         for plat in self.mapa.plataformas:
             if self.jugador.forma.colliderect(plat.rect):
-                if self.jugador.velocidad_y < 0:
+                if self.jugador.velocidad_y > 0 and prev_y <= plat.rect.top + 5:
+                    self.jugador.forma.bottom = plat.rect.top
+                    self.jugador.velocidad_y = 0
+                    self.jugador.velocidad_x = 0
+                    self.jugador.on_ground = True
+                    landed = True
+                elif self.jugador.velocidad_y < 0:
                     self.jugador.forma.top = plat.rect.bottom
                     self.jugador.velocidad_y = 0
-                elif not self.jugador.on_ground:
+                break
+        
+        if not landed and self.jugador.velocidad_y > 0:
+            self.jugador.on_ground = False
+
+        # Movimiento horizontal
+        self.jugador.forma.x += self.jugador.velocidad_x
+
+        # Colision horizontal
+        for plat in self.mapa.plataformas:
+            if self.jugador.forma.colliderect(plat.rect):
+                if not self.jugador.on_ground:
                     if self.jugador.velocidad_x > 0:
                         self.jugador.forma.right = plat.rect.left
                     elif self.jugador.velocidad_x < 0:
                         self.jugador.forma.left = plat.rect.right
+                self.jugador.velocidad_x = 0
+                break
 
-        # Movimiento horizontal
-        if not self.jugador.on_ground:
-            self.jugador.forma.x += self.jugador.velocidad_x
-
-        # Límites
+        # Limites
         if self.jugador.forma.left < 0:
             self.jugador.forma.left = 0
         if self.jugador.forma.right > constantes.ancho_ventana:
@@ -199,54 +209,41 @@ class JumpKingEnv(gym.Env):
 
         # Respawn
         if self.jugador.forma.top > 3100:
-            self.jugador.forma.center = (50, 2930)
+            self.jugador.forma.center = (60, 2930)
             self.jugador.velocidad_y = 0
             self.jugador.velocidad_x = 0
             self.jugador.on_ground = True
-            self._cargando = False
-            self._tiempo_carga = 0
-            self._en_aire = False
 
         self.jugador.update()
 
-        # Cámara
+        # Camara
         target = self.jugador.forma.centery - constantes.alto_ventana // 2
         self.camara_y += (target - self.camara_y) * 0.1
 
-        # Calcular recompensa - SIMPLE
+        # Recompensa
         altura_actual = self.jugador.forma.centery
-        
-        # Recompensa: ganar altura = positivo, perder altura = negativo
-        recompensa = (altura_anterior - altura_actual) * 0.1
+        recompensa = (altura_anterior - altura_actual) * 0.5
 
-        # Recompensa por ejecutar un salto
-        if self._en_aire and not self._cargando:
-            recompensa += 2.0  # Bonus por estar en el aire
-
-        # Bonus por nueva plataforma
         plat_actual = self._obtener_plataforma_actual()
         if plat_actual is not None and plat_actual not in self.plataformas_visitadas:
             self.plataformas_visitadas.add(plat_actual)
-            recompensa += 50.0
+            recompensa += 100.0
 
-        # Actualizar altura máxima
         if altura_actual < self._altura_maxima:
             self._altura_maxima = altura_actual
+            recompensa += 10.0
 
-        # Recompensa por superar altura máxima
-        if altura_actual < self._altura_maxima:
-            recompensa += 5.0
+        if self.jugador.on_ground and altura_actual == altura_anterior:
+            recompensa -= 0.5
 
-        # Meta alcanzada
         terminado = altura_actual <= self.meta_y
         if terminado:
-            recompensa += 1000.0
+            recompensa += 2000.0
 
-        # Caer al fondo
         if altura_actual > 3100:
-            recompensa -= 100.0
+            recompensa -= 200.0
 
-        truncado = self.pasos >= 50  # Episodios muy cortos para forzar aprendizaje rápido
+        truncado = self.pasos >= 200
 
         if self.render_mode == "human":
             self._renderizar()
@@ -266,9 +263,8 @@ class JumpKingEnv(gym.Env):
 
     def _obtener_plataforma_actual(self):
         j = self.jugador
-        pies = pygame.Rect(j.forma.x, j.forma.bottom, j.forma.width, 4)
         for i, plat in enumerate(self.mapa.plataformas):
-            if pies.colliderect(plat.rect):
+            if j.forma.colliderect(plat.rect) and j.on_ground:
                 return i
         return None
 

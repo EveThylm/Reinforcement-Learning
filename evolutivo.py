@@ -72,94 +72,71 @@ class JuegoEvolutivo:
         altura_maxima_suelo = 2950
         pasos_en_suelo = 0
         altura_maxima_aires = 2950
-        cargando = False
-        tiempo_carga = 0
-        direccion = 0
         en_aire = False
-        prev_y = jugador.forma.centery
-        prev_x = jugador.forma.centerx
 
+        debug = getattr(self, '_debug', False)
+        
         for accion in secuencia:
-            # Ejecutar acción durante varios frames
             for frame in range(frames_por_accion):
-                # Procesar acción
-                if accion == 0:
-                    # Idle: soltar carga si hay → saltar
-                    if cargando:
-                        fuerza = min(tiempo_carga * (constantes.fuerza_salto_max / constantes.tiempo_carga_max), constantes.fuerza_salto_max)
-                        jugador.velocidad_y = -fuerza
-                        jugador.velocidad_x = direccion * constantes.velocidad
+                # Saltos directos (sin carga)
+                # 0=idle, 1=izq, 2=der
+                if jugador.on_ground:
+                    if accion == 1:
+                        jugador.velocidad_y = -constantes.fuerza_salto_max
+                        jugador.velocidad_x = -8
                         jugador.on_ground = False
-                        cargando = False
-                        tiempo_carga = 0
                         en_aire = True
-                elif accion == 1:
-                    # Cargar hacia la izquierda
-                    if jugador.on_ground and not cargando:
-                        cargando = True
-                        tiempo_carga = 0
-                        direccion = -1
-                elif accion == 2:
-                    # Cargar hacia la derecha
-                    if jugador.on_ground and not cargando:
-                        cargando = True
-                        tiempo_carga = 0
-                        direccion = 1
-                elif accion == 3:
-                    # Cargar salto aleatorio
-                    if jugador.on_ground and not cargando:
-                        cargando = True
-                        tiempo_carga = 0
-                        import random
-                        direccion = random.choice([-1, 1])
-
-                # Incrementar carga
-                if cargando:
-                    tiempo_carga += 1
-                    # Saltar automáticamente después de 40 frames
-                    if tiempo_carga >= constantes.tiempo_carga_max:
-                        fuerza = constantes.fuerza_salto_max
-                        jugador.velocidad_y = -fuerza
-                        jugador.velocidad_x = direccion * constantes.velocidad
+                    elif accion == 2:
+                        jugador.velocidad_y = -constantes.fuerza_salto_max
+                        jugador.velocidad_x = 8
                         jugador.on_ground = False
-                        cargando = False
-                        tiempo_carga = 0
                         en_aire = True
 
-                # Física
+                # Aplicar gravedad
                 jugador.aplicar_gravedad()
+
+                # Guardar posición anterior
+                prev_y = jugador.forma.centery
+                prev_x = jugador.forma.centerx
+
+                # Mover vertical
                 jugador.forma.y += jugador.velocidad_y
 
-                # Detectar suelo
-                jugador.on_ground = False
-                for plat in self.mapa.plataformas:
-                    if (prev_y <= plat.rect.top and jugador.forma.bottom >= plat.rect.top and
-                        jugador.velocidad_y >= 0 and
-                        jugador.forma.right > plat.rect.left and 
-                        jugador.forma.left < plat.rect.right):
-                        jugador.forma.bottom = plat.rect.top
-                        jugador.velocidad_y = 0
-                        jugador.velocidad_x = 0
-                        jugador.on_ground = True
-                        en_aire = False
-                        break
-
-                prev_y = jugador.forma.centery
-
-                # Colisiones
+                # Colisión vertical
+                landed = False
                 for plat in self.mapa.plataformas:
                     if jugador.forma.colliderect(plat.rect):
-                        if jugador.velocidad_y < 0:
+                        if jugador.velocidad_y > 0 and prev_y <= plat.rect.top + 5:
+                            # Cayendo y estaba arriba: aterrizar encima
+                            jugador.forma.bottom = plat.rect.top
+                            jugador.velocidad_y = 0
+                            jugador.velocidad_x = 0
+                            jugador.on_ground = True
+                            en_aire = False
+                            landed = True
+                        elif jugador.velocidad_y < 0:
+                            # Subiendo: chocar contra techo
                             jugador.forma.top = plat.rect.bottom
                             jugador.velocidad_y = 0
-                        elif not jugador.on_ground:
+                        break
+                
+                # Si no aterrizó y está cayendo, ya no está en suelo
+                if not landed and jugador.velocidad_y > 0:
+                    jugador.on_ground = False
+
+                # Mover horizontal
+                jugador.forma.x += jugador.velocidad_x
+
+                # Colisión horizontal
+                for plat in self.mapa.plataformas:
+                    if jugador.forma.colliderect(plat.rect):
+                        if not jugador.on_ground:
                             if jugador.velocidad_x > 0:
                                 jugador.forma.right = plat.rect.left
                             elif jugador.velocidad_x < 0:
                                 jugador.forma.left = plat.rect.right
-
-                # Movimiento horizontal (siempre)
-                jugador.forma.x += jugador.velocidad_x
+                        jugador.velocidad_x = 0
+                        break
 
                 # Límites
                 if jugador.forma.left < 0:
@@ -173,8 +150,6 @@ class JuegoEvolutivo:
                     jugador.velocidad_y = 0
                     jugador.velocidad_x = 0
                     jugador.on_ground = True
-                    cargando = False
-                    tiempo_carga = 0
                     en_aire = False
 
                 jugador.update()
@@ -185,42 +160,65 @@ class JuegoEvolutivo:
                 if altura_actual < altura_maxima_aires:
                     altura_maxima_aires = altura_actual
 
-                # Solo guardar altura si está en suelo
                 if jugador.on_ground:
                     pasos_en_suelo += 1
-                    if pasos_en_suelo >= 10 and altura_actual < altura_maxima_suelo:
+                    if pasos_en_suelo >= 3 and altura_actual < altura_maxima_suelo:
                         altura_maxima_suelo = altura_actual
                 else:
                     pasos_en_suelo = 0
 
-        # Fitness: altura alcanzada en suelo (menor = mejor)
-        fitness = 2950 - altura_maxima_suelo
+        fitness_suelo = 2950 - altura_maxima_suelo
+        fitness_aire = 2950 - altura_maxima_aires
+        # Premiar más el progreso en aire (el agente necesita estar en el aire para subir)
+        fitness = fitness_suelo * 0.7 + fitness_aire * 0.5
         return max(0, fitness), altura_maxima_suelo, altura_maxima_aires
 
 
 def crear_secuencia_aleatoria(longitud=10):
-    """Crea una secuencia aleatoria de acciones."""
-    return [random.randint(0, 3) for _ in range(longitud)]
+    return [random.randint(0, 2) for _ in range(longitud)]
+
+def crear_secuencia_inteligente(longitud=10):
+    """Secuencia óptima: saltar der → esperar aterrizar → saltar izq → esperar"""
+    secuencia = []
+    patron = [2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+    for i in range(longitud):
+        if i < len(patron):
+            secuencia.append(patron[i])
+        else:
+            secuencia.append(0)
+    return secuencia
 
 
 def mutar_secuencia(secuencia, tasa_mutacion=0.2):
-    """Muta una secuencia cambiando algunas acciones."""
     nueva = secuencia.copy()
     for i in range(len(nueva)):
         if random.random() < tasa_mutacion:
-            nueva[i] = random.randint(0, 3)
+            nueva[i] = random.randint(0, 2)
+    return nueva
+
+def mutar_por_segmentos(secuencia, tasa_mutacion=0.2, max_segmento=10):
+    """Muta segmentos consecutivos de la secuencia"""
+    nueva = secuencia.copy()
+    i = 0
+    while i < len(nueva):
+        if random.random() < tasa_mutacion:
+            longitud = random.randint(1, min(max_segmento, len(nueva) - i))
+            patron = random.randint(0, 2)
+            for j in range(i, i + longitud):
+                nueva[j] = patron
+            i += longitud
+        else:
+            i += 1
     return nueva
 
 
 def cruzar_secuencias(padre1, padre2):
-    """Cruza dos secuencias tomando partes de cada una."""
     punto = random.randint(1, len(padre1) - 1)
     hijo = padre1[:punto] + padre2[punto:]
     return hijo
 
 
 def seleccionar_mejores(poblacion, fitnesses, n=5):
-    """Selecciona las n mejores secuencias."""
     indices = sorted(range(len(fitnesses)), key=lambda i: fitnesses[i], reverse=True)
     return [poblacion[i] for i in indices[:n]]
 
@@ -229,11 +227,10 @@ def ejecutar_evolutivo(
     generaciones=500,
     tamano_poblacion=50,
     longitud_secuencia=1000,
-    frames_por_accion=20,
+    frames_por_accion=30,
     tasa_mutacion=0.3,
     elites=5,
 ):
-    """Ejecuta el algoritmo evolutivo."""
     print("=== Algoritmo Evolutivo - Jump King ===")
     print(f"Generaciones: {generaciones}")
     print(f"Población: {tamano_poblacion}")
@@ -242,15 +239,19 @@ def ejecutar_evolutivo(
 
     juego = JuegoEvolutivo()
 
-    # Crear población inicial
-    poblacion = [crear_secuencia_aleatoria(longitud_secuencia) for _ in range(tamano_poblacion)]
+    poblacion = []
+    # Incluir algunas semillas inteligentes
+    for _ in range(tamano_poblacion // 3):
+        poblacion.append(crear_secuencia_inteligente(longitud_secuencia))
+    # Resto aleatorio
+    for _ in range(tamano_poblacion - len(poblacion)):
+        poblacion.append(crear_secuencia_aleatoria(longitud_secuencia))
 
     mejor_fitness_global = 0
     mejor_secuencia_global = None
     mejor_altura_global = 2950
 
     for gen in range(generaciones):
-        # Evaluar cada secuencia
         fitnesses = []
         alturas = []
         for secuencia in poblacion:
@@ -258,51 +259,52 @@ def ejecutar_evolutivo(
             fitnesses.append(fitness)
             alturas.append(altura_suelo)
 
-        # Encontrar la mejor de esta generación
         mejor_idx = fitnesses.index(max(fitnesses))
         mejor_fitness_gen = fitnesses[mejor_idx]
         mejor_altura_gen = alturas[mejor_idx]
         mejor_secuencia_gen = poblacion[mejor_idx]
 
-        # Actualizar mejor global
         if mejor_fitness_gen > mejor_fitness_global:
             mejor_fitness_global = mejor_fitness_gen
             mejor_secuencia_global = mejor_secuencia_gen.copy()
             mejor_altura_global = mejor_altura_gen
-            print(f"Gen {gen+1}: ¡Nuevo mejor! Fitness: {mejor_fitness_gen} | Altura: {mejor_altura_global:.0f} | Secuencia: {mejor_secuencia_global}")
+            print(f"Gen {gen+1}: ¡Nuevo mejor! Fitness: {mejor_fitness_global} | Altura: {2950 - mejor_altura_global:.0f}px")
         elif gen % 50 == 0:
             promedio = sum(fitnesses) / len(fitnesses)
             print(f"Gen {gen+1}: Mejor local: {mejor_fitness_gen} | Promedio: {promedio:.1f} | Global: {mejor_fitness_global}")
 
-        # Seleccionar mejores (elitismo)
         mejores = seleccionar_mejores(poblacion, fitnesses, elites)
-
-        # Crear nueva población
         nueva_poblacion = mejores.copy()
 
         while len(nueva_poblacion) < tamano_poblacion:
-            if random.random() < 0.7:
-                # Mutar un elite
+            if random.random() < 0.5:
                 padre = random.choice(mejores)
-                hijo = mutar_secuencia(padre, tasa_mutacion)
+                if random.random() < 0.5:
+                    hijo = mutar_secuencia(padre, tasa_mutacion)
+                else:
+                    hijo = mutar_por_segmentos(padre, tasa_mutacion)
             else:
-                # Cruzar dos elites
                 padre1 = random.choice(mejores)
                 padre2 = random.choice(mejores)
                 hijo = cruzar_secuencias(padre1, padre2)
                 hijo = mutar_secuencia(hijo, tasa_mutacion * 0.5)
-
             nueva_poblacion.append(hijo)
+
+        # Reiniciar 10% de la población si no hay mejora
+        if gen > 0 and gen % 20 == 0 and mejor_fitness_gen == mejor_fitness_global:
+            n_restart = max(1, tamano_poblacion // 10)
+            for i in range(n_restart):
+                idx = -(i + 1)
+                nueva_poblacion[idx] = crear_secuencia_aleatoria(longitud_secuencia)
 
         poblacion = nueva_poblacion
 
     print()
     print("=== RESULTADO FINAL ===")
     print(f"Mejor fitness: {mejor_fitness_global}")
-    print(f"Mejor altura (suelo): {mejor_altura_global:.0f}")
+    print(f"Mejor altura (suelo): {2950 - mejor_altura_global:.0f}px")
     print(f"Mejor secuencia: {mejor_secuencia_global}")
 
-    # Guardar mejor secuencia
     with open("mejor_secuencia.txt", "w") as f:
         f.write(str(mejor_secuencia_global))
     print("Secuencia guardada en: mejor_secuencia.txt")
@@ -314,10 +316,10 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Algoritmo evolutivo para Jump King")
-    parser.add_argument("--generaciones", type=int, default=500, help="Número de generaciones")
-    parser.add_argument("--poblacion", type=int, default=50, help="Tamaño de la población")
-    parser.add_argument("--acciones", type=int, default=1000, help="Acciones por secuencia")
-    parser.add_argument("--mutacion", type=float, default=0.3, help="Tasa de mutación")
+    parser.add_argument("--generaciones", type=int, default=500)
+    parser.add_argument("--poblacion", type=int, default=50)
+    parser.add_argument("--acciones", type=int, default=1000)
+    parser.add_argument("--mutacion", type=float, default=0.3)
     args = parser.parse_args()
 
     mejor_secuencia, mejor_fitness = ejecutar_evolutivo(
