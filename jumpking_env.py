@@ -2,6 +2,7 @@ import gymnasium as gym
 from gymnasium import spaces
 import numpy as np
 import pygame
+import random
 import constantes
 from personaje import Personaje
 from plataforma import Plataforma
@@ -58,6 +59,20 @@ class JumpKingEnv(gym.Env):
         self.meta_y = 50
         self.pasos = 0
         self.altura_minima_episodio = 2950
+        self._pasos_inactivo = 0
+
+        # Historial de acciones
+        self.historial_acciones = {
+            "idle": 0,
+            "left": 0,
+            "right": 0,
+            "charge_jump": 0,
+            "jump": 0,
+        }
+
+        # Plataformas visitadas
+        self.plataformas_visitadas = set()
+        self._ultima_plataforma = None
 
     def _crear_mapa(self):
         return Nivel([
@@ -113,6 +128,21 @@ class JumpKingEnv(gym.Env):
         self.altura_minima_episodio = 2950
         self.pasos = 0
         self._accion_anterior = None
+        self._pasos_inactivo = 0
+
+        # Reset historial de acciones
+        self.historial_acciones = {
+            "idle": 0,
+            "left": 0,
+            "right": 0,
+            "charge_jump": 0,
+            "jump": 0,
+        }
+
+        # Reset plataformas visitadas
+        self.plataformas_visitadas = set()
+        self._ultima_plataforma = None
+
         return self._obtener_observacion(), {}
 
     def _obtener_observacion(self):
@@ -201,14 +231,35 @@ class JumpKingEnv(gym.Env):
         self.pasos += 1
         altura_anterior = self.jugador.forma.centery
 
+        # Registrar acción en historial
+        if action == 0:
+            self.historial_acciones["idle"] += 1
+        elif action == 1:
+            self.historial_acciones["left"] += 1
+        elif action == 2:
+            self.historial_acciones["right"] += 1
+        elif action == 3:
+            self.historial_acciones["charge_jump"] += 1
+        elif action == 4:
+            self.historial_acciones["jump"] += 1
+
         # Ejecutar acción
         self._ejecutar_accion(action)
 
         # Física del juego
         self._actualizar_fisica()
 
+        # Verificar si está en una nueva plataforma
+        plataforma_actual = self._obtener_plataforma_actual()
+        recompensa_nueva_plat = 0
+        if plataforma_actual is not None:
+            if plataforma_actual not in self.plataformas_visitadas:
+                self.plataformas_visitadas.add(plataforma_actual)
+                recompensa_nueva_plat = 5.0  # Recompensa por nueva plataforma
+            self._ultima_plataforma = plataforma_actual
+
         # Calcular recompensa
-        recompensa = self._calcular_recompensa(altura_anterior)
+        recompensa = self._calcular_recompensa(altura_anterior) + recompensa_nueva_plat
 
         # Actualizar tracking
         altura_actual = self.jugador.forma.centery
@@ -248,6 +299,13 @@ class JumpKingEnv(gym.Env):
                         ),
                     ),
                 ),
+                "action_idle": self.historial_acciones["idle"],
+                "action_left": self.historial_acciones["left"],
+                "action_right": self.historial_acciones["right"],
+                "action_charge_jump": self.historial_acciones["charge_jump"],
+                "action_jump": self.historial_acciones["jump"],
+                "plataformas_visitadas": len(self.plataformas_visitadas),
+                "nueva_plataforma": recompensa_nueva_plat > 0,
             },
         )
 
@@ -255,31 +313,43 @@ class JumpKingEnv(gym.Env):
         j = self.jugador
         delta_x = 0
 
-        if action == 0:
-            pass
-        elif action == 1:
-            if j.on_ground and not j.cargando:
-                delta_x = -constantes.velocidad
-        elif action == 2:
-            if j.on_ground and not j.cargando:
-                delta_x = constantes.velocidad
+        # Acción 4: Liberar salto (solo si está cargando)
+        if action == 4:
+            if j.cargando:
+                # Si no tiene dirección, asignar aleatoria
+                if j.direccion == 0:
+                    j.set_direccion(random.choice([-1, 1]))
+                j.soltar_salto()
+
+        # Acción 3: Cargar salto (mantener mientras se envíe)
         elif action == 3:
             if j.on_ground and not j.cargando:
                 j.empezar_carga()
-            elif j.cargando:
-                pass
-        elif action == 4:
-            if j.cargando:
-                j.soltar_salto()
+            # Si ya está cargando, simplemente continúa (no hace nada extra)
 
+        # Acción 1: Mover izquierda
+        elif action == 1:
+            if j.cargando:
+                # Cambiar dirección mientras carga
+                j.set_direccion(-1)
+            elif j.on_ground:
+                delta_x = -constantes.velocidad
+
+        # Acción 2: Mover derecha
+        elif action == 2:
+            if j.cargando:
+                # Cambiar dirección mientras carga
+                j.set_direccion(1)
+            elif j.on_ground:
+                delta_x = constantes.velocidad
+
+        # Acción 0: Idle
+        else:
+            pass
+
+        # En el aire, mantener velocidad horizontal
         if not j.on_ground:
             delta_x = j.velocidad_x
-
-        if j.cargando:
-            if action == 1:
-                j.set_direccion(-1)
-            elif action == 2:
-                j.set_direccion(1)
 
         j.aplicar_gravedad()
         j.forma.y += j.velocidad_y
@@ -329,6 +399,15 @@ class JumpKingEnv(gym.Env):
         target = self.jugador.forma.centery - constantes.alto_ventana // 2
         self.camara_y += (target - self.camara_y) * 0.1
 
+    def _obtener_plataforma_actual(self):
+        """Retorna el índice de la plataforma en la que está parado el jugador."""
+        j = self.jugador
+        pies = pygame.Rect(j.forma.x, j.forma.bottom, j.forma.width, 4)
+        for i, plat in enumerate(self.mapa.plataformas):
+            if pies.colliderect(plat.rect):
+                return i
+        return None
+
     def _calcular_recompensa(self, altura_anterior):
         altura_actual = self.jugador.forma.centery
         recompensa = 0
@@ -340,8 +419,20 @@ class JumpKingEnv(gym.Env):
         else:
             recompensa += delta_altura * -1.5
 
+        # Recompensa por ejecutar un salto (acción 4)
+        if self._accion_anterior == 4:
+            recompensa += 0.5
+
         # Costo por paso
         recompensa -= 0.1
+
+        # Penalización por inactividad (en suelo sin cargar por mucho tiempo)
+        if self.jugador.on_ground and not self.jugador.cargando:
+            self._pasos_inactivo += 1
+            if self._pasos_inactivo > 30:
+                recompensa -= 0.2
+        else:
+            self._pasos_inactivo = 0
 
         # Meta alcanzada (Y=50 es la cumbre, arriba)
         if altura_actual <= self.meta_y:

@@ -406,9 +406,12 @@ La función de recompensa define qué comportamientos se desea fomentar o penali
 |--------|------------|---------------|
 | Ganar altura (+1 px) | **+1.0** | Fomenta progreso hacia la cumbre. |
 | Perder altura (-1 px) | **-1.5** | Penalización mayor para desalentar caídas. |
+| Ejecutar salto | **+0.5** | Incentiva al agente a saltar. |
+| Alcanzar nueva plataforma | **+5.0** | Recompensa por explorar y avanzar. |
 | Alcanzar la cumbre (meta) | **+1000.0** | Recompensa grande por completar el nivel. |
 | Caer al inicio del nivel | **-500.0** | Penalización fuerte por retroceso severo. |
 | Cada paso de tiempo | **-0.1** | Incentiva completar el nivel rápidamente. |
+| Inactividad (>30 pasos) | **-0.2** | Penalización por quedarse quieto mucho tiempo. |
 
 ## Diseño de la recompensa
 
@@ -421,11 +424,20 @@ recompensa += (altura_actual - altura_anterior) * 1.0      # ganar altura
 recompensa += (altura_actual - altura_anterior) * -1.5     # perder altura (penalización extra)
 recompensa -= 0.1                                          # costo por paso
 
-if altura_actual >= altura_meta:
-    recompensa += 1000.0                                   # completar nivel
+if accion == 4:                                            # ejecutar salto
+    recompensa += 0.5
 
-if altura_actual < altura_minima_episodio:
-    recompensa -= 500.0                                    # caer al inicio
+if plataforma_nueva:                                       # nueva plataforma visitada
+    recompensa += 5.0
+
+if altura_actual <= altura_meta:                           # completar nivel
+    recompensa += 1000.0
+
+if altura_actual > 3100:                                   # caer al inicio
+    recompensa -= 500.0
+
+if en_suelo and sin_cargar and pasos_inactivos > 30:       # inactividad prolongada
+    recompensa -= 0.2
 ```
 
 ## Consideraciones
@@ -442,7 +454,7 @@ if altura_actual < altura_minima_episodio:
 |------------|-------------|
 | **Observaciones** | Vector de 13 valores numéricos normalizados (posición, velocidad, entorno). |
 | **Acciones** | 5 acciones discretas (idle, mover izq, mover der, cargar salto, liberar salto). |
-| **Recompensas** | Ganar altura (+1), perder altura (-1.5), meta (+1000), caer (-500), tiempo (-0.1). |
+| **Recompensas** | Ganar altura (+1), perder altura (-1.5), saltar (+0.5), nueva plataforma (+5), meta (+1000), caer (-500), tiempo (-0.1), inactividad (-0.2). |
 | **Algoritmo** | PPO (Proximal Policy Optimization). |
 
 ---
