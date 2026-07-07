@@ -36,7 +36,6 @@ class JumpKingEnv(gym.Env):
 
         self.mapa = self._crear_mapa()
 
-        # 4 acciones simples: idle, saltar izq, saltar der, saltar recto
         self.observation_space = spaces.Box(low=-1.0, high=1.0, shape=(6,), dtype=np.float32)
         self.action_space = spaces.Discrete(4)
 
@@ -49,10 +48,9 @@ class JumpKingEnv(gym.Env):
         self._tiempo_carga = 0
         self._direccion_salto = 0
         self._en_aire = False
-        self._altura_maxima = 0
+        self._altura_maxima = 2950
         self.plataformas_visitadas = set()
-        self._ultima_accion = -1
-        self._repeticiones_accion = 0
+        self._ultima_plataforma = -1
 
     def _crear_mapa(self):
         return Nivel([
@@ -110,19 +108,20 @@ class JumpKingEnv(gym.Env):
         self._tiempo_carga = 0
         self._direccion_salto = 0
         self._en_aire = False
-        self._altura_maxima = 0
+        self._altura_maxima = 2950
         self.plataformas_visitadas = set()
+        self._ultima_plataforma = 0
         return self._obtener_observacion(), {}
 
     def _obtener_observacion(self):
         j = self.jugador
         obs = np.zeros(6, dtype=np.float32)
-        obs[0] = j.forma.centery / constantes.alto_ventana  # altura normalizada
-        obs[1] = j.velocidad_y / 20.0  # vel vertical
-        obs[2] = 1.0 if j.on_ground else 0.0  # en suelo
-        obs[3] = min(self._tiempo_carga / constantes.tiempo_carga_max, 1.0)  # carga
-        obs[4] = self._altura_maxima / constantes.alto_ventana  # mejor altura
-        obs[5] = (j.forma.centery - self.meta_y) / (self.altura_inicial - self.meta_y)  # distancia meta
+        obs[0] = j.forma.centery / constantes.alto_ventana
+        obs[1] = j.velocidad_y / 20.0
+        obs[2] = 1.0 if j.on_ground else 0.0
+        obs[3] = min(self._tiempo_carga / constantes.tiempo_carga_max, 1.0)
+        obs[4] = self._altura_maxima / constantes.alto_ventana
+        obs[5] = (j.forma.centery - self.meta_y) / (self.altura_inicial - self.meta_y)
         return np.clip(obs, -1.0, 1.0)
 
     def step(self, action):
@@ -131,32 +130,27 @@ class JumpKingEnv(gym.Env):
 
         # Procesar acción
         if action == 0:
-            # Idle - no hace nada
             pass
         elif action == 1:
-            # Saltar izquierda
             if self.jugador.on_ground and not self._cargando:
                 self._cargando = True
                 self._tiempo_carga = 0
                 self._direccion_salto = -1
         elif action == 2:
-            # Saltar derecha
             if self.jugador.on_ground and not self._cargando:
                 self._cargando = True
                 self._tiempo_carga = 0
                 self._direccion_salto = 1
         elif action == 3:
-            # Saltar recto (dirección aleatoria)
             if self.jugador.on_ground and not self._cargando:
                 self._cargando = True
                 self._tiempo_carga = 0
                 self._direccion_salto = random.choice([-1, 1])
 
-        # Si está cargando, incrementar tiempo
+        # Cargar y saltar automáticamente
         if self._cargando:
             self._tiempo_carga += 1
-            # Saltar automáticamente después de cargar un poco
-            if self._tiempo_carga >= 20:
+            if self._tiempo_carga >= 15:
                 fuerza = min(self._tiempo_carga * (constantes.fuerza_salto_max / constantes.tiempo_carga_max), constantes.fuerza_salto_max)
                 self.jugador.velocidad_y = -fuerza
                 self.jugador.velocidad_x = self._direccion_salto * constantes.velocidad
@@ -181,7 +175,7 @@ class JumpKingEnv(gym.Env):
                     self._en_aire = False
                 break
 
-        # Colisiones techo/laterales
+        # Colisiones
         for plat in self.mapa.plataformas:
             if self.jugador.forma.colliderect(plat.rect):
                 if self.jugador.velocidad_y < 0:
@@ -203,7 +197,7 @@ class JumpKingEnv(gym.Env):
         if self.jugador.forma.right > constantes.ancho_ventana:
             self.jugador.forma.right = constantes.ancho_ventana
 
-        # Respawn si cae al fondo
+        # Respawn
         if self.jugador.forma.top > 3100:
             self.jugador.forma.center = (50, 2930)
             self.jugador.velocidad_y = 0
@@ -215,36 +209,44 @@ class JumpKingEnv(gym.Env):
 
         self.jugador.update()
 
-        # Actualizar cámara
+        # Cámara
         target = self.jugador.forma.centery - constantes.alto_ventana // 2
         self.camara_y += (target - self.camara_y) * 0.1
 
-        # Calcular recompensa
+        # Calcular recompensa - SIMPLE
         altura_actual = self.jugador.forma.centery
+        
+        # Recompensa: ganar altura = positivo, perder altura = negativo
+        recompensa = (altura_anterior - altura_actual) * 0.1
+
+        # Recompensa por ejecutar un salto
+        if self._en_aire and not self._cargando:
+            recompensa += 2.0  # Bonus por estar en el aire
+
+        # Bonus por nueva plataforma
+        plat_actual = self._obtener_plataforma_actual()
+        if plat_actual is not None and plat_actual not in self.plataformas_visitadas:
+            self.plataformas_visitadas.add(plat_actual)
+            recompensa += 50.0
+
+        # Actualizar altura máxima
         if altura_actual < self._altura_maxima:
             self._altura_maxima = altura_actual
 
-        # Recompensa por nueva plataforma
-        plat_actual = self._obtener_plataforma_actual()
-        recompensa_plat = 0
-        if plat_actual is not None and plat_actual not in self.plataformas_visitadas:
-            self.plataformas_visitadas.add(plat_actual)
-            recompensa_plat = 5.0
+        # Recompensa por superar altura máxima
+        if altura_actual < self._altura_maxima:
+            recompensa += 5.0
 
-        # Recompensa principal
-        delta_altura = altura_anterior - altura_actual
-        recompensa = 0
-        recompensa += delta_altura * 0.5  # ganar/perder altura
-        recompensa -= 0.05  # costo tiempo
-        recompensa += recompensa_plat
-
-        if altura_actual <= self.meta_y:
-            recompensa += 500.0
-        if altura_actual > 3100:
-            recompensa -= 200.0
-
+        # Meta alcanzada
         terminado = altura_actual <= self.meta_y
-        truncado = self.pasos >= 500
+        if terminado:
+            recompensa += 1000.0
+
+        # Caer al fondo
+        if altura_actual > 3100:
+            recompensa -= 100.0
+
+        truncado = self.pasos >= 50  # Episodios muy cortos para forzar aprendizaje rápido
 
         if self.render_mode == "human":
             self._renderizar()
@@ -277,7 +279,7 @@ class JumpKingEnv(gym.Env):
 
         font = pygame.font.SysFont(None, 30)
         progreso = max(0, min(100, int((2950 - self.jugador.forma.centery) / (2950 - 50) * 100)))
-        texto = font.render(f"Progreso: {progreso}% | Pasos: {self.pasos}", True, (255, 255, 255))
+        texto = font.render(f"Progreso: {progreso}% | Plataformas: {len(self.plataformas_visitadas)}", True, (255, 255, 255))
         self.ventana.blit(texto, (10, 10))
         pygame.display.update()
 

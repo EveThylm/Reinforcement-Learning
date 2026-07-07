@@ -42,7 +42,7 @@ def entrenar(total_timesteps=100000, modelo_path="modelo_ppo"):
         batch_size=64,
         n_epochs=10,
         gamma=0.99,
-        ent_coef=0.01,
+        ent_coef=0.05,  # Mayor exploración
         tensorboard_log="./logs/",
     )
 
