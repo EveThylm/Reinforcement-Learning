@@ -362,6 +362,91 @@ La normalización mejora la estabilidad y la velocidad del entrenamiento.
 
 ---
 
+# Espacio de Acciones
+
+El agente interactúa con el juego mediante un conjunto finito de acciones. Dado que Jump King no permite control aéreo, todas las decisiones relevantes ocurren cuando el jugador está en el suelo.
+
+## Acciones Discretas (5 acciones)
+
+| ID | Acción | Descripción |
+|----|--------|-------------|
+| 0 | **Idle** | No realizar ninguna acción. El personaje permanece inactivo. |
+| 1 | **Mover izquierda** | Caminar hacia la izquierda (válido solo en suelo). |
+| 2 | **Mover derecha** | Caminar hacia la derecha (válido solo en suelo). |
+| 3 | **Cargar salto** | Iniciar o mantener la carga del salto. |
+| 4 | **Liberar salto** | Ejecutar el salto con la carga acumulada. |
+
+### Por qué un espacio discreto
+
+- El juego solo permite control en el suelo (caminar, cargar, soltar).
+- En el aire no hay acciones disponibles: la velocidad queda fija al lanzar el salto.
+- Un espacio `Discrete(5)` es sencillo de implementar con PPO y librerías como Stable Baselines3.
+
+### Flujo de decisiones del agente
+
+```text
+¿Está en el suelo?
+    │
+    ├─ Sí → ¿Está cargando?
+    │         ├─ Sí → Puede: Liberar salto (4) o mantener carga (3)
+    │         └─ No → Puede: Idle (0), Mover izq (1), Mover der (2), Cargar (3)
+    │
+    └─ No → El agente no actúa (espera a aterrizar)
+```
+
+---
+
+# Función de Recompensa
+
+La función de recompensa define qué comportamientos se desea fomentar o penalizar. Un buen diseño de recompensas es esencial para que el agente aprenda a escalar el nivel de forma eficiente.
+
+## Recompensas por evento
+
+| Evento | Recompensa | Justificación |
+|--------|------------|---------------|
+| Ganar altura (+1 px) | **+1.0** | Fomenta progreso hacia la cumbre. |
+| Perder altura (-1 px) | **-1.5** | Penalización mayor para desalentar caídas. |
+| Alcanzar la cumbre (meta) | **+1000.0** | Recompensa grande por completar el nivel. |
+| Caer al inicio del nivel | **-500.0** | Penalización fuerte por retroceso severo. |
+| Cada paso de tiempo | **-0.1** | Incentiva completar el nivel rápidamente. |
+
+## Diseño de la recompensa
+
+La recompensa se calcula en cada paso del `step()` del entorno:
+
+```text
+recompensa = 0
+
+recompensa += (altura_actual - altura_anterior) * 1.0      # ganar altura
+recompensa += (altura_actual - altura_anterior) * -1.5     # perder altura (penalización extra)
+recompensa -= 0.1                                          # costo por paso
+
+if altura_actual >= altura_meta:
+    recompensa += 1000.0                                   # completar nivel
+
+if altura_actual < altura_minima_episodio:
+    recompensa -= 500.0                                    # caer al inicio
+```
+
+## Consideraciones
+
+- **Equilibrio entre recompensa y penalización:** La penalización por perder altura (1.5) es mayor que la recompensa por ganarla (1.0) para que el agente aprenda a evitar caídas en lugar de simplemente subir y caer repetidamente.
+- **Recompensa terminal grande (+1000):** Garantiza que el agente priorice llegar a la meta como objetivo final.
+- **Penalización por tiempo (-0.1/paso):** Evita que el agente se quede estancado o dé vueltas sin progresar.
+
+---
+
+# Resumen del Diseño
+
+| Componente | Descripción |
+|------------|-------------|
+| **Observaciones** | Vector de 13 valores numéricos normalizados (posición, velocidad, entorno). |
+| **Acciones** | 5 acciones discretas (idle, mover izq, mover der, cargar salto, liberar salto). |
+| **Recompensas** | Ganar altura (+1), perder altura (-1.5), meta (+1000), caer (-500), tiempo (-0.1). |
+| **Algoritmo** | PPO (Proximal Policy Optimization). |
+
+---
+
 # Conclusión
 
 El agente no aprenderá observando imágenes del juego, sino mediante un **vector de características numéricas** cuidadosamente diseñado. Este vector resume el estado del jugador y del entorno en cada instante, proporcionando la información necesaria para que el algoritmo PPO pueda aprender una política de control eficiente.
