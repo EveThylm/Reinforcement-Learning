@@ -74,14 +74,6 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
                     jugador.velocidad_y = -12
                     jugador.velocidad_x = constantes.vx_salto
                     jugador.on_ground = False
-                elif accion == 5:
-                    jugador.velocidad_y = -8
-                    jugador.velocidad_x = -constantes.vx_salto
-                    jugador.on_ground = False
-                elif accion == 6:
-                    jugador.velocidad_y = -8
-                    jugador.velocidad_x = constantes.vx_salto
-                    jugador.on_ground = False
 
             jugador.aplicar_gravedad()
             jugador.forma.y += jugador.velocidad_y
@@ -143,7 +135,7 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
 
             font = pygame.font.SysFont(None, 30)
             progreso = max(0, min(100, int((constantes.suelo_y - altura_maxima) / (constantes.suelo_y - 50) * 100)))
-            accion_nombre = ["Idle", "Izq Full", "Der Full", "Izq 3/4", "Der 3/4", "Izq Half", "Der Half"][accion]
+            accion_nombre = ["Idle", "Izq Full", "Der Full", "Izq 3/4", "Der 3/4"][accion]
             texto = font.render(
                 f"Accion: {accion_nombre} ({accion_idx+1}/{len(secuencia)}) | Progreso: {progreso}% | Altura: {constantes.suelo_y - altura_maxima:.0f}px",
                 True, (255, 255, 255)

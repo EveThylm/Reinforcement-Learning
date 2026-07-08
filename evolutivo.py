@@ -46,14 +46,6 @@ def _evaluar_individual(args):
                     jugador.velocidad_y = -12
                     jugador.velocidad_x = constantes.vx_salto
                     jugador.on_ground = False
-                elif accion == 5:
-                    jugador.velocidad_y = -8
-                    jugador.velocidad_x = -constantes.vx_salto
-                    jugador.on_ground = False
-                elif accion == 6:
-                    jugador.velocidad_y = -8
-                    jugador.velocidad_x = constantes.vx_salto
-                    jugador.on_ground = False
 
             jugador.aplicar_gravedad()
 
@@ -170,14 +162,6 @@ class JuegoEvolutivo:
                         jugador.velocidad_y = -12
                         jugador.velocidad_x = constantes.vx_salto
                         jugador.on_ground = False
-                    elif accion == 5:
-                        jugador.velocidad_y = -8
-                        jugador.velocidad_x = -constantes.vx_salto
-                        jugador.on_ground = False
-                    elif accion == 6:
-                        jugador.velocidad_y = -8
-                        jugador.velocidad_x = constantes.vx_salto
-                        jugador.on_ground = False
 
                 jugador.aplicar_gravedad()
 
@@ -248,7 +232,7 @@ class JuegoEvolutivo:
 
 
 def crear_secuencia_aleatoria(longitud=10):
-    return [random.randint(0, 6) for _ in range(longitud)]
+    return [random.randint(0, 4) for _ in range(longitud)]
 
 def crear_secuencia_inteligente(longitud=10):
     secuencia = []
@@ -286,7 +270,7 @@ def mutar_secuencia(secuencia, tasa_mutacion=0.2):
     nueva = secuencia.copy()
     for i in range(len(nueva)):
         if random.random() < tasa_mutacion:
-            nueva[i] = random.randint(0, 6)
+            nueva[i] = random.randint(0, 4)
     return nueva
 
 def mutar_por_segmentos(secuencia, tasa_mutacion=0.2, max_segmento=10):
@@ -295,7 +279,7 @@ def mutar_por_segmentos(secuencia, tasa_mutacion=0.2, max_segmento=10):
     while i < len(nueva):
         if random.random() < tasa_mutacion:
             longitud = random.randint(1, min(max_segmento, len(nueva) - i))
-            patron = random.randint(0, 6)
+            patron = random.randint(0, 4)
             for j in range(i, i + longitud):
                 nueva[j] = patron
             i += longitud
@@ -321,9 +305,9 @@ def seleccionar_por_torneo(poblacion, fitnesses, k=3, n=5):
 
 
 def ejecutar_evolutivo(
-    generaciones=500,
-    tamano_poblacion=50,
-    longitud_secuencia=1000,
+    generaciones=1000,
+    tamano_poblacion=100,
+    longitud_secuencia=500,
     frames_por_accion=30,
     tasa_mutacion=0.3,
     elites=5,
@@ -479,9 +463,9 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Algoritmo evolutivo para Jump King")
-    parser.add_argument("--generaciones", type=int, default=500)
-    parser.add_argument("--poblacion", type=int, default=50)
-    parser.add_argument("--acciones", type=int, default=1000)
+    parser.add_argument("--generaciones", type=int, default=1000)
+    parser.add_argument("--poblacion", type=int, default=100)
+    parser.add_argument("--acciones", type=int, default=500)
     parser.add_argument("--mutacion", type=float, default=0.3)
     parser.add_argument("--paralelo", action="store_true", help="Usar evaluación paralela")
     args = parser.parse_args()
