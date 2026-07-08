@@ -100,6 +100,8 @@ while run == True:
                 jugador.velocidad_y= 0
             break
 
+    jugador.movimiento(delta_x)
+
     # Colisiones con plataformas (techo y laterales)
     for plat in nivel_actual.plataformas:
         if jugador.forma.colliderect(plat.rect):
@@ -111,8 +113,6 @@ while run == True:
                     jugador.forma.right= plat.rect.left
                 elif delta_x < 0:
                     jugador.forma.left= plat.rect.right
-
-    jugador.movimiento(delta_x)
 
     # Limites horizontales
     if jugador.forma.left < 0:

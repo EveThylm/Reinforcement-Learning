@@ -66,6 +66,22 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
                     jugador.velocidad_y = -constantes.fuerza_salto_max
                     jugador.velocidad_x = 8
                     jugador.on_ground = False
+                elif accion == 3:
+                    jugador.velocidad_y = -12
+                    jugador.velocidad_x = -8
+                    jugador.on_ground = False
+                elif accion == 4:
+                    jugador.velocidad_y = -12
+                    jugador.velocidad_x = 8
+                    jugador.on_ground = False
+                elif accion == 5:
+                    jugador.velocidad_y = -8
+                    jugador.velocidad_x = -8
+                    jugador.on_ground = False
+                elif accion == 6:
+                    jugador.velocidad_y = -8
+                    jugador.velocidad_x = 8
+                    jugador.on_ground = False
 
             jugador.aplicar_gravedad()
             prev_y = jugador.forma.centery
@@ -82,6 +98,8 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
                         jugador.velocidad_x = 0
                     break
 
+            jugador.forma.x += jugador.velocidad_x
+
             for plat in mapa.plataformas:
                 if jugador.forma.colliderect(plat.rect):
                     if jugador.velocidad_y < 0:
@@ -92,8 +110,6 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
                             jugador.forma.right = plat.rect.left
                         elif jugador.velocidad_x < 0:
                             jugador.forma.left = plat.rect.right
-
-            jugador.forma.x += jugador.velocidad_x
 
             if jugador.forma.left < 0:
                 jugador.forma.left = 0
@@ -128,7 +144,7 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
 
             font = pygame.font.SysFont(None, 30)
             progreso = max(0, min(100, int((2950 - altura_maxima) / (2950 - 50) * 100)))
-            accion_nombre = ["Idle", "Izquierda", "Derecha"][accion]
+            accion_nombre = ["Idle", "Izq Full", "Der Full", "Izq 3/4", "Der 3/4", "Izq Half", "Der Half"][accion]
             texto = font.render(
                 f"Accion: {accion_nombre} ({accion_idx+1}/{len(secuencia)}) | Progreso: {progreso}% | Altura: {2950 - altura_maxima:.0f}px",
                 True, (255, 255, 255)
@@ -165,7 +181,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Evaluar mejor secuencia evolutiva")
     parser.add_argument("--velocidad", type=float, default=0.5)
     parser.add_argument("--repeticiones", type=int, default=1)
-    parser.add_argument("--frames", type=int, default=20)
+    parser.add_argument("--frames", type=int, default=30)
     args = parser.parse_args()
 
     secuencia = cargar_secuencia()
