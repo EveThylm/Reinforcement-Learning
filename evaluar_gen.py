@@ -17,7 +17,7 @@ def cargar_animaciones():
     return animaciones
 
 
-def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticiones=1):
+def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticiones=1):
     pygame.init()
     ventana = pygame.display.set_mode((constantes.ancho_ventana, constantes.alto_ventana))
     pygame.display.set_caption("Jump King - Evaluacion Evolutiva")
@@ -29,13 +29,13 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
     for rep in range(repeticiones):
         print(f"\n=== Repeticion {rep + 1}/{repeticiones} ===")
 
-        jugador = Personaje(60, 2930, animaciones)
+        jugador = Personaje(constantes.spawn_x, constantes.spawn_y, animaciones)
         jugador.on_ground = True
         camara_y = 0
 
         accion_idx = 0
         frame_en_accion = 0
-        altura_maxima = 2950
+        altura_maxima = constantes.suelo_y
 
         ejecutando = True
         while ejecutando:
@@ -48,7 +48,7 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
                         pygame.quit()
                         return
                     if event.key == pygame.K_r:
-                        jugador = Personaje(60, 2930, animaciones)
+                        jugador = Personaje(constantes.spawn_x, constantes.spawn_y, animaciones)
                         jugador.on_ground = True
                         camara_y = 0
                         accion_idx = 0
@@ -60,31 +60,30 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
             if jugador.on_ground:
                 if accion == 1:
                     jugador.velocidad_y = -constantes.fuerza_salto_max
-                    jugador.velocidad_x = -8
+                    jugador.velocidad_x = -constantes.vx_salto
                     jugador.on_ground = False
                 elif accion == 2:
                     jugador.velocidad_y = -constantes.fuerza_salto_max
-                    jugador.velocidad_x = 8
+                    jugador.velocidad_x = constantes.vx_salto
                     jugador.on_ground = False
                 elif accion == 3:
                     jugador.velocidad_y = -12
-                    jugador.velocidad_x = -8
+                    jugador.velocidad_x = -constantes.vx_salto
                     jugador.on_ground = False
                 elif accion == 4:
                     jugador.velocidad_y = -12
-                    jugador.velocidad_x = 8
+                    jugador.velocidad_x = constantes.vx_salto
                     jugador.on_ground = False
                 elif accion == 5:
                     jugador.velocidad_y = -8
-                    jugador.velocidad_x = -8
+                    jugador.velocidad_x = -constantes.vx_salto
                     jugador.on_ground = False
                 elif accion == 6:
                     jugador.velocidad_y = -8
-                    jugador.velocidad_x = 8
+                    jugador.velocidad_x = constantes.vx_salto
                     jugador.on_ground = False
 
             jugador.aplicar_gravedad()
-            prev_y = jugador.forma.centery
             jugador.forma.y += jugador.velocidad_y
 
             jugador.on_ground = False
@@ -116,8 +115,8 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
             if jugador.forma.right > constantes.ancho_ventana:
                 jugador.forma.right = constantes.ancho_ventana
 
-            if jugador.forma.top > 3100:
-                jugador.forma.center = (60, 2930)
+            if jugador.forma.top > constantes.umbral_caida:
+                jugador.forma.center = (constantes.spawn_x, constantes.spawn_y)
                 jugador.velocidad_y = 0
                 jugador.velocidad_x = 0
                 jugador.on_ground = True
@@ -143,10 +142,10 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
             jugador.dibujar(ventana, camara_y)
 
             font = pygame.font.SysFont(None, 30)
-            progreso = max(0, min(100, int((2950 - altura_maxima) / (2950 - 50) * 100)))
+            progreso = max(0, min(100, int((constantes.suelo_y - altura_maxima) / (constantes.suelo_y - 50) * 100)))
             accion_nombre = ["Idle", "Izq Full", "Der Full", "Izq 3/4", "Der 3/4", "Izq Half", "Der Half"][accion]
             texto = font.render(
-                f"Accion: {accion_nombre} ({accion_idx+1}/{len(secuencia)}) | Progreso: {progreso}% | Altura: {2950 - altura_maxima:.0f}px",
+                f"Accion: {accion_nombre} ({accion_idx+1}/{len(secuencia)}) | Progreso: {progreso}% | Altura: {constantes.suelo_y - altura_maxima:.0f}px",
                 True, (255, 255, 255)
             )
             ventana.blit(texto, (10, 10))
@@ -156,7 +155,7 @@ def evaluar_con_render(secuencia, frames_por_accion=20, velocidad=0.3, repeticio
             reloj.tick(int(velocidad * 60))
 
             if accion_idx >= len(secuencia):
-                print(f"Secuencia completada. Altura maxima: {2950 - altura_maxima:.0f}px | Progreso: {progreso}%")
+                print(f"Secuencia completada. Altura maxima: {constantes.suelo_y - altura_maxima:.0f}px | Progreso: {progreso}%")
                 time.sleep(2)
                 ejecutando = False
 

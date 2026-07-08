@@ -45,7 +45,7 @@ for i in range(1, 8):
 mapa = crear_mapa()
 
 nivel_actual= mapa
-jugador= Personaje(50, 2930, animaciones)
+jugador= Personaje(constantes.spawn_x, constantes.spawn_y, animaciones)
 
 camara_y= 0
 
@@ -121,8 +121,8 @@ while run == True:
         jugador.forma.right= constantes.ancho_ventana
 
     # Si cae al fondo del mapa, respawn al inicio
-    if jugador.forma.top > 3100:
-        jugador.forma.center= (50, 2930)
+    if jugador.forma.top > constantes.umbral_caida:
+        jugador.forma.center= (constantes.spawn_x, constantes.spawn_y)
         jugador.velocidad_y= 0
         jugador.velocidad_x= 0
         jugador.on_ground= True
@@ -135,7 +135,7 @@ while run == True:
 
     # HUD
     font= pygame.font.SysFont(None, 30)
-    progreso= max(0, min(100, int((2950 - jugador.forma.centery) / (2950 - 50) * 100)))
+    progreso= max(0, min(100, int((constantes.suelo_y - jugador.forma.centery) / (constantes.suelo_y - 50) * 100)))
     texto_progreso= font.render(f"Progreso: {progreso}%", True, (255, 255, 255))
     ventana.blit(texto_progreso, (10, 10))
     texto_reset= font.render("R: Reiniciar", True, (180, 180, 180))
@@ -153,7 +153,7 @@ while run == True:
             if event.key == pygame.K_SPACE:
                 jugador.empezar_carga()
             if event.key == pygame.K_r:
-                jugador.forma.center= (50, 2930)
+                jugador.forma.center= (constantes.spawn_x, constantes.spawn_y)
                 jugador.velocidad_y= 0
                 jugador.velocidad_x= 0
                 jugador.on_ground= True

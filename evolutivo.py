@@ -18,46 +18,45 @@ def _evaluar_individual(args):
         img = pygame.image.frombytes(data[0], data[1], data[2])
         animaciones.append(img)
     mapa = crear_mapa()
-    jugador = Personaje(60, 2930, animaciones)
+    jugador = Personaje(constantes.spawn_x, constantes.spawn_y, animaciones)
     jugador.on_ground = True
 
-    altura_maxima_suelo = 2950
+    altura_maxima_suelo = constantes.suelo_y
     pasos_en_suelo = 0
-    altura_maxima_aires = 2950
+    altura_maxima_aires = constantes.suelo_y
     waypoints_visitados = set()
-    altura_actual_suelo = 2950
+    altura_actual_suelo = constantes.suelo_y
 
     for accion in secuencia:
         for frame in range(frames_por_accion):
             if jugador.on_ground:
                 if accion == 1:
                     jugador.velocidad_y = -constantes.fuerza_salto_max
-                    jugador.velocidad_x = -8
+                    jugador.velocidad_x = -constantes.vx_salto
                     jugador.on_ground = False
                 elif accion == 2:
                     jugador.velocidad_y = -constantes.fuerza_salto_max
-                    jugador.velocidad_x = 8
+                    jugador.velocidad_x = constantes.vx_salto
                     jugador.on_ground = False
                 elif accion == 3:
                     jugador.velocidad_y = -12
-                    jugador.velocidad_x = -8
+                    jugador.velocidad_x = -constantes.vx_salto
                     jugador.on_ground = False
                 elif accion == 4:
                     jugador.velocidad_y = -12
-                    jugador.velocidad_x = 8
+                    jugador.velocidad_x = constantes.vx_salto
                     jugador.on_ground = False
                 elif accion == 5:
                     jugador.velocidad_y = -8
-                    jugador.velocidad_x = -8
+                    jugador.velocidad_x = -constantes.vx_salto
                     jugador.on_ground = False
                 elif accion == 6:
                     jugador.velocidad_y = -8
-                    jugador.velocidad_x = 8
+                    jugador.velocidad_x = constantes.vx_salto
                     jugador.on_ground = False
 
             jugador.aplicar_gravedad()
 
-            prev_y = jugador.forma.centery
             jugador.forma.y += jugador.velocidad_y
 
             jugador.on_ground = False
@@ -89,8 +88,8 @@ def _evaluar_individual(args):
             if jugador.forma.right > constantes.ancho_ventana:
                 jugador.forma.right = constantes.ancho_ventana
 
-            if jugador.forma.top > 3100:
-                jugador.forma.center = (60, 2930)
+            if jugador.forma.top > constantes.umbral_caida:
+                jugador.forma.center = (constantes.spawn_x, constantes.spawn_y)
                 jugador.velocidad_y = 0
                 jugador.velocidad_x = 0
                 jugador.on_ground = True
@@ -116,8 +115,8 @@ def _evaluar_individual(args):
                 if altura_actual <= wp_y + 10 and jugador.on_ground:
                     waypoints_visitados.add(i)
 
-    fitness_suelo = 2950 - altura_maxima_suelo
-    fitness_aire = 2950 - altura_maxima_aires
+    fitness_suelo = constantes.suelo_y - altura_maxima_suelo
+    fitness_aire = constantes.suelo_y - altura_maxima_aires
     waypoint_bonus = len(waypoints_visitados) * 50
     caida = altura_actual_suelo - altura_maxima_suelo if altura_actual_suelo > altura_maxima_suelo else 0
     fitness = fitness_suelo * 1.0 + fitness_aire * 0.5 + waypoint_bonus - caida * 2
@@ -143,46 +142,45 @@ class JuegoEvolutivo:
         self.mapa = crear_mapa()
 
     def evaluar_secuencia(self, secuencia, frames_por_accion=30):
-        jugador = Personaje(60, 2930, self.animaciones)
+        jugador = Personaje(constantes.spawn_x, constantes.spawn_y, self.animaciones)
         jugador.on_ground = True
 
-        altura_maxima_suelo = 2950
+        altura_maxima_suelo = constantes.suelo_y
         pasos_en_suelo = 0
-        altura_maxima_aires = 2950
+        altura_maxima_aires = constantes.suelo_y
         waypoints_visitados = set()
-        altura_actual_suelo = 2950
+        altura_actual_suelo = constantes.suelo_y
 
         for accion in secuencia:
             for frame in range(frames_por_accion):
                 if jugador.on_ground:
                     if accion == 1:
                         jugador.velocidad_y = -constantes.fuerza_salto_max
-                        jugador.velocidad_x = -8
+                        jugador.velocidad_x = -constantes.vx_salto
                         jugador.on_ground = False
                     elif accion == 2:
                         jugador.velocidad_y = -constantes.fuerza_salto_max
-                        jugador.velocidad_x = 8
+                        jugador.velocidad_x = constantes.vx_salto
                         jugador.on_ground = False
                     elif accion == 3:
                         jugador.velocidad_y = -12
-                        jugador.velocidad_x = -8
+                        jugador.velocidad_x = -constantes.vx_salto
                         jugador.on_ground = False
                     elif accion == 4:
                         jugador.velocidad_y = -12
-                        jugador.velocidad_x = 8
+                        jugador.velocidad_x = constantes.vx_salto
                         jugador.on_ground = False
                     elif accion == 5:
                         jugador.velocidad_y = -8
-                        jugador.velocidad_x = -8
+                        jugador.velocidad_x = -constantes.vx_salto
                         jugador.on_ground = False
                     elif accion == 6:
                         jugador.velocidad_y = -8
-                        jugador.velocidad_x = 8
+                        jugador.velocidad_x = constantes.vx_salto
                         jugador.on_ground = False
 
                 jugador.aplicar_gravedad()
 
-                prev_y = jugador.forma.centery
                 jugador.forma.y += jugador.velocidad_y
 
                 jugador.on_ground = False
@@ -214,8 +212,8 @@ class JuegoEvolutivo:
                 if jugador.forma.right > constantes.ancho_ventana:
                     jugador.forma.right = constantes.ancho_ventana
 
-                if jugador.forma.top > 3100:
-                    jugador.forma.center = (60, 2930)
+                if jugador.forma.top > constantes.umbral_caida:
+                    jugador.forma.center = (constantes.spawn_x, constantes.spawn_y)
                     jugador.velocidad_y = 0
                     jugador.velocidad_x = 0
                     jugador.on_ground = True
@@ -241,8 +239,8 @@ class JuegoEvolutivo:
                     if altura_actual <= wp_y + 10 and jugador.on_ground:
                         waypoints_visitados.add(i)
 
-        fitness_suelo = 2950 - altura_maxima_suelo
-        fitness_aire = 2950 - altura_maxima_aires
+        fitness_suelo = constantes.suelo_y - altura_maxima_suelo
+        fitness_aire = constantes.suelo_y - altura_maxima_aires
         waypoint_bonus = len(waypoints_visitados) * 50
         caida = altura_actual_suelo - altura_maxima_suelo if altura_actual_suelo > altura_maxima_suelo else 0
         fitness = fitness_suelo * 1.0 + fitness_aire * 0.5 + waypoint_bonus - caida * 2
@@ -362,7 +360,7 @@ def ejecutar_evolutivo(
 
     mejor_fitness_global = 0
     mejor_secuencia_global = None
-    mejor_altura_global = 2950
+    mejor_altura_global = constantes.suelo_y
     tiempo_inicio = time.time()
     generaciones_sin_mejora = 0
     tasa_mutacion_actual = tasa_mutacion
@@ -405,12 +403,12 @@ def ejecutar_evolutivo(
             mejor_altura_global = mejor_altura_gen
             generaciones_sin_mejora = 0
             tasa_mutacion_actual = tasa_mutacion * 0.9
-            progreso = (2950 - mejor_altura_global) / 2900 * 100
+            progreso = (constantes.suelo_y - mejor_altura_global) / (constantes.suelo_y - 50) * 100
             print(f"\n{'='*60}")
             print(f"  GEN {gen+1}/{generaciones} - ¡NUEVO MEJOR!")
             print(f"{'='*60}")
             print(f"  Fitness:        {mejor_fitness_global:.1f}")
-            print(f"  Altura suelo:   {2950 - mejor_altura_global:.0f}px (Y={mejor_altura_global:.0f})")
+            print(f"  Altura suelo:   {constantes.suelo_y - mejor_altura_global:.0f}px (Y={mejor_altura_global:.0f})")
             print(f"  Progreso:       {progreso:.1f}%")
             print(f"  Mutación:       {tasa_mutacion_actual:.3f}")
             print(f"  Población:      Mejor={mejor_fitness_gen:.1f} | Peor={peor:.1f} | Prom={promedio:.1f} | Desv={desviacion:.1f}")
@@ -421,11 +419,11 @@ def ejecutar_evolutivo(
             if generaciones_sin_mejora > 10:
                 tasa_mutacion_actual = min(tasa_mutacion * 2.0, tasa_mutacion_actual * 1.1)
             if gen % 10 == 0:
-                progreso = (2950 - mejor_altura_global) / 2900 * 100
+                progreso = (constantes.suelo_y - mejor_altura_global) / (constantes.suelo_y - 50) * 100
                 print(f"\n  GEN {gen+1}/{generaciones}")
                 print(f"  Fitness global: {mejor_fitness_global:.1f} | Local: {mejor_fitness_gen:.1f}")
                 print(f"  Población:      Mejor={mejor_fitness_gen:.1f} | Peor={peor:.1f} | Prom={promedio:.1f} | Desv={desviacion:.1f}")
-                print(f"  Progreso:       {progreso:.1f}% | Altura: {2950 - mejor_altura_global:.0f}px")
+                print(f"  Progreso:       {progreso:.1f}% | Altura: {constantes.suelo_y - mejor_altura_global:.0f}px")
                 print(f"  Mutación:       {tasa_mutacion_actual:.3f} | Sin mejora: {generaciones_sin_mejora} gens")
                 print(f"  Tiempo:         {tiempo_transcurrido:.1f}s | ~{tiempo_restante:.1f}s restantes")
                 print()
@@ -456,14 +454,14 @@ def ejecutar_evolutivo(
         poblacion = nueva_poblacion
 
     tiempo_total = time.time() - tiempo_inicio
-    progreso_final = (2950 - mejor_altura_global) / 2900 * 100
+    progreso_final = (constantes.suelo_y - mejor_altura_global) / (constantes.suelo_y - 50) * 100
 
     print()
     print("=" * 60)
     print("     RESULTADO FINAL")
     print("=" * 60)
     print(f"  Mejor fitness:      {mejor_fitness_global:.1f}")
-    print(f"  Mejor altura:       {2950 - mejor_altura_global:.0f}px (Y={mejor_altura_global:.0f})")
+    print(f"  Mejor altura:       {constantes.suelo_y - mejor_altura_global:.0f}px (Y={mejor_altura_global:.0f})")
     print(f"  Progreso:           {progreso_final:.1f}%")
     print(f"  Tiempo total:       {tiempo_total:.1f} segundos")
     print(f"  Generaciones:       {generaciones}")

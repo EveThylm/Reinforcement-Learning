@@ -1,9 +1,10 @@
 import math
+import constantes
 
-FUERZA_SALTO_MAX = 16
-GRAVEDAD = 0.5
-VX = 8
-ANCHO_PERSONAJE = 20
+FUERZA_SALTO_MAX = constantes.fuerza_salto_max
+GRAVEDAD = constantes.gravedad
+VX = constantes.vx_salto
+ANCHO_PERSONAJE = constantes.ancho_personaje
 
 ALTURA_MAX = FUERZA_SALTO_MAX ** 2 / (2 * GRAVEDAD)
 TIEMPO_SUBIDA = FUERZA_SALTO_MAX / GRAVEDAD
