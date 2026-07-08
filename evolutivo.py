@@ -1,10 +1,10 @@
 import pygame
 import random
 import time
+import json
 import constantes
 from personaje import Personaje
-from plataforma import Plataforma
-from nivel import Nivel
+from mapa import crear_mapa, WAYPOINT_Y_VALUES
 
 
 class JuegoEvolutivo:
@@ -17,145 +17,71 @@ class JuegoEvolutivo:
             w, h = img.get_width(), img.get_height()
             img = pygame.transform.scale(img, (w * constantes.scala_personaje, h * constantes.scala_personaje))
             self.animaciones.append(img)
-        self.mapa = self._crear_mapa()
+        self.mapa = crear_mapa()
 
-    def _crear_mapa(self):
-        return Nivel([
-            Plataforma(0, 2950, 800, 50),
-            Plataforma(300, 2840, 250, 20),
-            Plataforma(50, 2750, 180, 20),
-            Plataforma(450, 2750, 180, 20),
-            Plataforma(200, 2660, 140, 20),
-            Plataforma(500, 2660, 120, 20),
-            Plataforma(100, 2570, 150, 20),
-            Plataforma(30, 2480, 130, 20),
-            Plataforma(200, 2400, 120, 20),
-            Plataforma(450, 2470, 120, 20),
-            Plataforma(550, 2380, 130, 20),
-            Plataforma(300, 2310, 140, 20),
-            Plataforma(500, 2300, 110, 20),
-            Plataforma(620, 2220, 120, 20),
-            Plataforma(450, 2150, 110, 20),
-            Plataforma(250, 2100, 120, 20),
-            Plataforma(400, 2010, 120, 20),
-            Plataforma(180, 1930, 130, 20),
-            Plataforma(400, 1850, 120, 20),
-            Plataforma(180, 1770, 130, 20),
-            Plataforma(400, 1690, 120, 20),
-            Plataforma(180, 1610, 140, 20),
-            Plataforma(380, 1530, 140, 20),
-            Plataforma(180, 1450, 140, 20),
-            Plataforma(380, 1370, 140, 20),
-            Plataforma(180, 1290, 130, 20),
-            Plataforma(380, 1210, 130, 20),
-            Plataforma(180, 1130, 130, 20),
-            Plataforma(380, 1050, 130, 20),
-            Plataforma(180, 970, 130, 20),
-            Plataforma(380, 890, 130, 20),
-            Plataforma(180, 810, 130, 20),
-            Plataforma(380, 730, 130, 20),
-            Plataforma(450, 650, 120, 20),
-            Plataforma(200, 570, 120, 20),
-            Plataforma(450, 490, 120, 20),
-            Plataforma(200, 410, 120, 20),
-            Plataforma(350, 340, 100, 20),
-            Plataforma(150, 270, 100, 20),
-            Plataforma(400, 200, 100, 20),
-            Plataforma(250, 130, 100, 20),
-            Plataforma(300, 50, 200, 30),
-        ])
-
-    def evaluar_secuencia(self, secuencia, frames_por_accion=15):
-        """Evalúa una secuencia de acciones y retorna el fitness."""
+    def evaluar_secuencia(self, secuencia, frames_por_accion=30):
         jugador = Personaje(60, 2930, self.animaciones)
         jugador.on_ground = True
 
         altura_maxima_suelo = 2950
         pasos_en_suelo = 0
         altura_maxima_aires = 2950
-        en_aire = False
+        waypoints_visitados = set()
 
-        debug = getattr(self, '_debug', False)
-        
         for accion in secuencia:
             for frame in range(frames_por_accion):
-                # Saltos directos (sin carga)
-                # 0=idle, 1=izq, 2=der
                 if jugador.on_ground:
                     if accion == 1:
                         jugador.velocidad_y = -constantes.fuerza_salto_max
                         jugador.velocidad_x = -8
                         jugador.on_ground = False
-                        en_aire = True
                     elif accion == 2:
                         jugador.velocidad_y = -constantes.fuerza_salto_max
                         jugador.velocidad_x = 8
                         jugador.on_ground = False
-                        en_aire = True
 
-                # Aplicar gravedad
                 jugador.aplicar_gravedad()
 
-                # Guardar posición anterior
                 prev_y = jugador.forma.centery
-                prev_x = jugador.forma.centerx
-
-                # Mover vertical
                 jugador.forma.y += jugador.velocidad_y
 
-                # Colisión vertical
-                landed = False
+                jugador.on_ground = False
+                pies = pygame.Rect(jugador.forma.x, jugador.forma.bottom, jugador.forma.width, 4)
                 for plat in self.mapa.plataformas:
-                    if jugador.forma.colliderect(plat.rect):
-                        if jugador.velocidad_y > 0 and prev_y <= plat.rect.top + 5:
-                            # Cayendo y estaba arriba: aterrizar encima
+                    if pies.colliderect(plat.rect):
+                        jugador.on_ground = True
+                        if jugador.velocidad_y >= 0:
                             jugador.forma.bottom = plat.rect.top
                             jugador.velocidad_y = 0
                             jugador.velocidad_x = 0
-                            jugador.on_ground = True
-                            en_aire = False
-                            landed = True
-                        elif jugador.velocidad_y < 0:
-                            # Subiendo: chocar contra techo
-                            jugador.forma.top = plat.rect.bottom
-                            jugador.velocidad_y = 0
                         break
-                
-                # Si no aterrizó y está cayendo, ya no está en suelo
-                if not landed and jugador.velocidad_y > 0:
-                    jugador.on_ground = False
 
-                # Mover horizontal
-                jugador.forma.x += jugador.velocidad_x
-
-                # Colisión horizontal
                 for plat in self.mapa.plataformas:
                     if jugador.forma.colliderect(plat.rect):
-                        if not jugador.on_ground:
+                        if jugador.velocidad_y < 0:
+                            jugador.forma.top = plat.rect.bottom
+                            jugador.velocidad_y = 0
+                        elif not jugador.on_ground:
                             if jugador.velocidad_x > 0:
                                 jugador.forma.right = plat.rect.left
                             elif jugador.velocidad_x < 0:
                                 jugador.forma.left = plat.rect.right
-                        jugador.velocidad_x = 0
-                        break
 
-                # Límites
+                jugador.forma.x += jugador.velocidad_x
+
                 if jugador.forma.left < 0:
                     jugador.forma.left = 0
                 if jugador.forma.right > constantes.ancho_ventana:
                     jugador.forma.right = constantes.ancho_ventana
 
-                # Respawn si cae
                 if jugador.forma.top > 3100:
                     jugador.forma.center = (60, 2930)
                     jugador.velocidad_y = 0
                     jugador.velocidad_x = 0
                     jugador.on_ground = True
-                    en_aire = False
 
                 jugador.update()
 
-                # Actualizar tracking
                 altura_actual = jugador.forma.centery
 
                 if altura_actual < altura_maxima_aires:
@@ -168,10 +94,14 @@ class JuegoEvolutivo:
                 else:
                     pasos_en_suelo = 0
 
+                for i, wp_y in enumerate(WAYPOINT_Y_VALUES):
+                    if altura_actual <= wp_y + 10 and jugador.on_ground:
+                        waypoints_visitados.add(i)
+
         fitness_suelo = 2950 - altura_maxima_suelo
         fitness_aire = 2950 - altura_maxima_aires
-        # Premiar más el progreso en aire (el agente necesita estar en el aire para subir)
-        fitness = fitness_suelo * 0.7 + fitness_aire * 0.5
+        waypoint_bonus = len(waypoints_visitados) * 100
+        fitness = fitness_suelo * 0.7 + fitness_aire * 0.3 + waypoint_bonus
         return max(0, fitness), altura_maxima_suelo, altura_maxima_aires
 
 
@@ -179,7 +109,6 @@ def crear_secuencia_aleatoria(longitud=10):
     return [random.randint(0, 2) for _ in range(longitud)]
 
 def crear_secuencia_inteligente(longitud=10):
-    """Secuencia óptima: saltar der → esperar aterrizar → saltar izq → esperar"""
     secuencia = []
     patron = [2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
     for i in range(longitud):
@@ -198,7 +127,6 @@ def mutar_secuencia(secuencia, tasa_mutacion=0.2):
     return nueva
 
 def mutar_por_segmentos(secuencia, tasa_mutacion=0.2, max_segmento=10):
-    """Muta segmentos consecutivos de la secuencia"""
     nueva = secuencia.copy()
     i = 0
     while i < len(nueva):
@@ -241,16 +169,15 @@ def ejecutar_evolutivo(
     print(f"  Frames/acción:       {frames_por_accion}")
     print(f"  Tasa mutación:       {tasa_mutacion}")
     print(f"  Élites:              {elites}")
+    print(f"  Fitness:            waypoint-based (bonificación por plataforma)")
     print("=" * 60)
     print()
 
     juego = JuegoEvolutivo()
 
     poblacion = []
-    # Incluir algunas semillas inteligentes
     for _ in range(tamano_poblacion // 3):
         poblacion.append(crear_secuencia_inteligente(longitud_secuencia))
-    # Resto aleatorio
     for _ in range(tamano_poblacion - len(poblacion)):
         poblacion.append(crear_secuencia_aleatoria(longitud_secuencia))
 
@@ -272,13 +199,11 @@ def ejecutar_evolutivo(
         mejor_altura_gen = alturas[mejor_idx]
         mejor_secuencia_gen = poblacion[mejor_idx]
 
-        # Estadísticas de la población
         promedio = sum(fitnesses) / len(fitnesses)
         peor = min(fitnesses)
         varianza = sum((f - promedio) ** 2 for f in fitnesses) / len(fitnesses)
         desviacion = varianza ** 0.5
 
-        # Tiempo
         tiempo_transcurrido = time.time() - tiempo_inicio
         tiempo_por_gen = tiempo_transcurrido / (gen + 1)
         tiempo_restante = tiempo_por_gen * (generaciones - gen - 1)
@@ -323,7 +248,6 @@ def ejecutar_evolutivo(
                 hijo = mutar_secuencia(hijo, tasa_mutacion * 0.5)
             nueva_poblacion.append(hijo)
 
-        # Reiniciar 10% de la población si no hay mejora
         if gen > 0 and gen % 20 == 0 and mejor_fitness_gen == mejor_fitness_global:
             n_restart = max(1, tamano_poblacion // 10)
             for i in range(n_restart):
@@ -347,7 +271,7 @@ def ejecutar_evolutivo(
     print("=" * 60)
 
     with open("mejor_secuencia.txt", "w") as f:
-        f.write(str(mejor_secuencia_global))
+        json.dump(mejor_secuencia_global, f)
     print(f"\n  Secuencia guardada en: mejor_secuencia.txt")
     print(f"  Longitud secuencia: {len(mejor_secuencia_global)} acciones")
 

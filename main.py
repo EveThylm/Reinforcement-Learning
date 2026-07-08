@@ -2,8 +2,7 @@ import pygame
 import constantes
 import sys
 from personaje import Personaje
-from plataforma import Plataforma
-from nivel import Nivel
+from mapa import crear_mapa
 
 pygame.init()
 
@@ -43,75 +42,7 @@ for i in range(1, 8):
     backgrounds.append((bg, y_acumulado))
     y_acumulado += bg.get_height()
 
-# === MAPA COMPLETO ===
-# Y=0 arriba, Y crece hacia abajo
-# Max salto: ~200px horizontal, ~140px vertical
-
-mapa= Nivel([
-    # ===== SUELO =====
-    Plataforma(0, 2950, 800, 50),
-
-    # ===== SECCIÓN 1: Inicio amplio =====
-    Plataforma(300, 2840, 250, 20),
-    Plataforma(50, 2750, 180, 20),
-    Plataforma(450, 2750, 180, 20),
-    Plataforma(200, 2660, 140, 20),
-    Plataforma(500, 2660, 120, 20),
-    Plataforma(100, 2570, 150, 20),
-
-    # ===== SECCIÓN 2: Bifurcación =====
-    Plataforma(30, 2480, 130, 20),
-    Plataforma(200, 2400, 120, 20),
-    Plataforma(450, 2470, 120, 20),
-    Plataforma(550, 2380, 130, 20),
-    Plataforma(300, 2310, 140, 20),
-
-    # ===== SECCIÓN 3: Descenso lateral =====
-    Plataforma(500, 2300, 110, 20),
-    Plataforma(620, 2220, 120, 20),
-    Plataforma(450, 2150, 110, 20),
-    Plataforma(250, 2100, 120, 20),
-
-    # ===== SECCIÓN 4: Subida con plataformas mixtas =====
-    Plataforma(400, 2010, 120, 20),
-    Plataforma(180, 1930, 130, 20),
-    Plataforma(400, 1850, 120, 20),
-    Plataforma(180, 1770, 130, 20),
-    Plataforma(400, 1690, 120, 20),
-
-    # ===== SECCIÓN 5: Zigzag amplio =====
-    Plataforma(180, 1610, 140, 20),
-    Plataforma(380, 1530, 140, 20),
-    Plataforma(180, 1450, 140, 20),
-    Plataforma(380, 1370, 140, 20),
-
-    # ===== SECCIÓN 6: Zigzag =====
-    Plataforma(180, 1290, 130, 20),
-    Plataforma(380, 1210, 130, 20),
-    Plataforma(180, 1130, 130, 20),
-    Plataforma(380, 1050, 130, 20),
-    Plataforma(180, 970, 130, 20),
-
-    # ===== SECCIÓN 7: Subida final =====
-    Plataforma(380, 890, 130, 20),
-    Plataforma(180, 810, 130, 20),
-    Plataforma(380, 730, 130, 20),
-
-    # ===== SECCIÓN 8: Saltos largos =====
-    Plataforma(450, 650, 120, 20),
-    Plataforma(200, 570, 120, 20),
-    Plataforma(450, 490, 120, 20),
-    Plataforma(200, 410, 120, 20),
-
-    # ===== SECCIÓN 9: Precisión final =====
-    Plataforma(350, 340, 100, 20),
-    Plataforma(150, 270, 100, 20),
-    Plataforma(400, 200, 100, 20),
-    Plataforma(250, 130, 100, 20),
-
-    # ===== CUMBRE =====
-    Plataforma(300, 50, 200, 30),
-])
+mapa = crear_mapa()
 
 nivel_actual= mapa
 jugador= Personaje(50, 2930, animaciones)
