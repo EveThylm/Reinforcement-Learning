@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 import constantes
 from personaje import Personaje
 from plataforma import Plataforma
@@ -231,10 +232,16 @@ def ejecutar_evolutivo(
     tasa_mutacion=0.3,
     elites=5,
 ):
-    print("=== Algoritmo Evolutivo - Jump King ===")
-    print(f"Generaciones: {generaciones}")
-    print(f"Población: {tamano_poblacion}")
-    print(f"Acciones por secuencia: {longitud_secuencia}")
+    print("=" * 60)
+    print("     ALGORITMO EVOLUTIVO - JUMP KING")
+    print("=" * 60)
+    print(f"  Generaciones:        {generaciones}")
+    print(f"  Tamaño población:    {tamano_poblacion}")
+    print(f"  Acciones/secuencia:  {longitud_secuencia}")
+    print(f"  Frames/acción:       {frames_por_accion}")
+    print(f"  Tasa mutación:       {tasa_mutacion}")
+    print(f"  Élites:              {elites}")
+    print("=" * 60)
     print()
 
     juego = JuegoEvolutivo()
@@ -250,6 +257,7 @@ def ejecutar_evolutivo(
     mejor_fitness_global = 0
     mejor_secuencia_global = None
     mejor_altura_global = 2950
+    tiempo_inicio = time.time()
 
     for gen in range(generaciones):
         fitnesses = []
@@ -264,14 +272,39 @@ def ejecutar_evolutivo(
         mejor_altura_gen = alturas[mejor_idx]
         mejor_secuencia_gen = poblacion[mejor_idx]
 
+        # Estadísticas de la población
+        promedio = sum(fitnesses) / len(fitnesses)
+        peor = min(fitnesses)
+        varianza = sum((f - promedio) ** 2 for f in fitnesses) / len(fitnesses)
+        desviacion = varianza ** 0.5
+
+        # Tiempo
+        tiempo_transcurrido = time.time() - tiempo_inicio
+        tiempo_por_gen = tiempo_transcurrido / (gen + 1)
+        tiempo_restante = tiempo_por_gen * (generaciones - gen - 1)
+
         if mejor_fitness_gen > mejor_fitness_global:
             mejor_fitness_global = mejor_fitness_gen
             mejor_secuencia_global = mejor_secuencia_gen.copy()
             mejor_altura_global = mejor_altura_gen
-            print(f"Gen {gen+1}: ¡Nuevo mejor! Fitness: {mejor_fitness_global} | Altura: {2950 - mejor_altura_global:.0f}px")
-        elif gen % 50 == 0:
-            promedio = sum(fitnesses) / len(fitnesses)
-            print(f"Gen {gen+1}: Mejor local: {mejor_fitness_gen} | Promedio: {promedio:.1f} | Global: {mejor_fitness_global}")
+            progreso = (2950 - mejor_altura_global) / 2900 * 100
+            print(f"\n{'='*60}")
+            print(f"  GEN {gen+1}/{generaciones} - ¡NUEVO MEJOR!")
+            print(f"{'='*60}")
+            print(f"  Fitness:        {mejor_fitness_global:.1f}")
+            print(f"  Altura suelo:   {2950 - mejor_altura_global:.0f}px (Y={mejor_altura_global:.0f})")
+            print(f"  Progreso:       {progreso:.1f}%")
+            print(f"  Población:      Mejor={mejor_fitness_gen:.1f} | Peor={peor:.1f} | Prom={promedio:.1f} | Desv={desviacion:.1f}")
+            print(f"  Tiempo:         {tiempo_transcurrido:.1f}s transcurridos | ~{tiempo_restante:.1f}s restantes")
+            print(f"{'='*60}\n")
+        elif gen % 10 == 0:
+            progreso = (2950 - mejor_altura_global) / 2900 * 100
+            print(f"\n  GEN {gen+1}/{generaciones}")
+            print(f"  Fitness global: {mejor_fitness_global:.1f} | Local: {mejor_fitness_gen:.1f}")
+            print(f"  Población:      Mejor={mejor_fitness_gen:.1f} | Peor={peor:.1f} | Prom={promedio:.1f} | Desv={desviacion:.1f}")
+            print(f"  Progreso:       {progreso:.1f}% | Altura: {2950 - mejor_altura_global:.0f}px")
+            print(f"  Tiempo:         {tiempo_transcurrido:.1f}s | ~{tiempo_restante:.1f}s restantes")
+            print()
 
         mejores = seleccionar_mejores(poblacion, fitnesses, elites)
         nueva_poblacion = mejores.copy()
@@ -299,15 +332,24 @@ def ejecutar_evolutivo(
 
         poblacion = nueva_poblacion
 
+    tiempo_total = time.time() - tiempo_inicio
+    progreso_final = (2950 - mejor_altura_global) / 2900 * 100
+
     print()
-    print("=== RESULTADO FINAL ===")
-    print(f"Mejor fitness: {mejor_fitness_global}")
-    print(f"Mejor altura (suelo): {2950 - mejor_altura_global:.0f}px")
-    print(f"Mejor secuencia: {mejor_secuencia_global}")
+    print("=" * 60)
+    print("     RESULTADO FINAL")
+    print("=" * 60)
+    print(f"  Mejor fitness:      {mejor_fitness_global:.1f}")
+    print(f"  Mejor altura:       {2950 - mejor_altura_global:.0f}px (Y={mejor_altura_global:.0f})")
+    print(f"  Progreso:           {progreso_final:.1f}%")
+    print(f"  Tiempo total:       {tiempo_total:.1f} segundos")
+    print(f"  Generaciones:       {generaciones}")
+    print("=" * 60)
 
     with open("mejor_secuencia.txt", "w") as f:
         f.write(str(mejor_secuencia_global))
-    print("Secuencia guardada en: mejor_secuencia.txt")
+    print(f"\n  Secuencia guardada en: mejor_secuencia.txt")
+    print(f"  Longitud secuencia: {len(mejor_secuencia_global)} acciones")
 
     return mejor_secuencia_global, mejor_fitness_global
 
