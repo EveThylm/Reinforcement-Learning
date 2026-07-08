@@ -1,0 +1,429 @@
+PS C:\Users\hecto\Documents\GitHub\Reinforcement Learning> & "C:\Program Files\Python314\python.exe" "c:/Users/hecto/Documents/GitHub/Reinforcement Learning/evolutivo.py"
+pygame-ce 2.5.7 (SDL 2.32.10, Python 3.14.2)
+============================================================
+     ALGORITMO EVOLUTIVO - JUMP KING
+============================================================
+  Generaciones:        500
+  Tamaño población:    50
+  Acciones/secuencia:  1000
+  Frames/acción:       30
+  Tasa mutación:       0.3
+  Élites:              5
+============================================================
+
+
+============================================================
+  GEN 1/500 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1112.0
+  Altura suelo:   820px (Y=2130)
+  Progreso:       28.3%
+  Población:      Mejor=1112.0 | Peor=94.0 | Prom=327.6 | Desv=197.4
+  Tiempo:         4.7s transcurridos | ~2322.4s restantes
+============================================================
+
+
+============================================================
+  GEN 2/500 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1139.0
+  Altura suelo:   870px (Y=2080)
+  Progreso:       30.0%
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=469.5 | Desv=175.5
+  Tiempo:         9.2s transcurridos | ~2283.0s restantes
+============================================================
+
+
+  GEN 11/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=558.6 | Desv=254.1
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         51.0s | ~2266.1s restantes
+
+
+  GEN 21/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=557.3 | Desv=260.7
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         96.6s | ~2203.6s restantes
+
+
+  GEN 31/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=539.3 | Desv=260.9
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         142.0s | ~2148.3s restantes
+
+
+  GEN 41/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=526.2 | Desv=246.3
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         187.3s | ~2096.6s restantes
+
+
+  GEN 51/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=509.4 | Desv=234.9
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         232.6s | ~2047.9s restantes
+
+
+  GEN 61/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=529.8 | Desv=272.6
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         277.7s | ~1998.4s restantes
+
+
+  GEN 71/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=496.0 | Desv=237.3
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         322.8s | ~1950.3s restantes
+
+
+  GEN 81/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=582.2 | Desv=258.7
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         367.9s | ~1902.9s restantes
+
+
+  GEN 91/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=498.7 | Desv=244.3
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         413.1s | ~1856.8s restantes
+
+
+  GEN 101/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=539.6 | Desv=257.2
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         458.4s | ~1811.0s restantes
+
+
+  GEN 111/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=516.6 | Desv=258.2
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         503.7s | ~1765.3s restantes
+
+
+  GEN 121/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=476.3 | Desv=223.7
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         549.0s | ~1719.6s restantes
+
+
+  GEN 131/500
+  Fitness global: 1139.0 | Local: 1139.0
+  Población:      Mejor=1139.0 | Peor=392.0 | Prom=531.1 | Desv=239.4
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         595.0s | ~1676.1s restantes
+
+
+============================================================
+  GEN 137/500 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1172.0
+  Altura suelo:   870px (Y=2080)
+  Progreso:       30.0%
+  Población:      Mejor=1172.0 | Peor=392.0 | Prom=595.7 | Desv=299.3
+  Tiempo:         622.3s transcurridos | ~1648.9s restantes
+============================================================
+
+
+  GEN 141/500
+  Fitness global: 1172.0 | Local: 1172.0
+  Población:      Mejor=1172.0 | Peor=392.0 | Prom=536.7 | Desv=260.5
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         640.4s | ~1630.6s restantes
+
+
+  GEN 151/500
+  Fitness global: 1172.0 | Local: 1172.0
+  Población:      Mejor=1172.0 | Peor=392.0 | Prom=592.2 | Desv=320.4
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         685.5s | ~1584.5s restantes
+
+
+  GEN 161/500
+  Fitness global: 1172.0 | Local: 1172.0
+  Población:      Mejor=1172.0 | Peor=392.0 | Prom=554.3 | Desv=290.6
+  Progreso:       30.0% | Altura: 870px
+  Tiempo:         730.7s | ~1538.5s restantes
+
+
+============================================================
+  GEN 169/500 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1235.0
+  Altura suelo:   960px (Y=1990)
+  Progreso:       33.1%
+  Población:      Mejor=1235.0 | Peor=392.0 | Prom=601.4 | Desv=323.7
+  Tiempo:         766.8s transcurridos | ~1501.9s restantes
+============================================================
+
+
+  GEN 171/500
+  Fitness global: 1235.0 | Local: 1235.0
+  Población:      Mejor=1235.0 | Peor=392.0 | Prom=610.4 | Desv=323.7
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         775.9s | ~1492.7s restantes
+
+
+  GEN 181/500
+  Fitness global: 1235.0 | Local: 1235.0
+  Población:      Mejor=1235.0 | Peor=392.0 | Prom=556.8 | Desv=310.6
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         820.9s | ~1446.8s restantes
+
+
+  GEN 191/500
+  Fitness global: 1235.0 | Local: 1235.0
+  Población:      Mejor=1235.0 | Peor=392.0 | Prom=539.6 | Desv=275.8
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         866.1s | ~1401.1s restantes
+
+
+============================================================
+  GEN 197/500 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1242.0
+  Altura suelo:   960px (Y=1990)
+  Progreso:       33.1%
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=632.1 | Desv=319.2
+  Tiempo:         893.2s transcurridos | ~1373.8s restantes
+============================================================
+
+
+  GEN 201/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=574.0 | Desv=310.7
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         911.1s | ~1355.4s restantes
+
+
+  GEN 211/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=595.8 | Desv=291.6
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         956.3s | ~1309.8s restantes
+
+
+  GEN 221/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=560.1 | Desv=297.1
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1001.7s | ~1264.6s restantes
+
+
+  GEN 231/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=564.1 | Desv=311.0
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1050.7s | ~1223.6s restantes
+
+
+  GEN 241/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=642.5 | Desv=332.3
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1095.9s | ~1177.8s restantes
+
+
+  GEN 251/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=595.7 | Desv=331.6
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1141.2s | ~1132.1s restantes
+
+
+  GEN 261/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=566.2 | Desv=298.4
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1186.3s | ~1086.3s restantes
+
+
+  GEN 271/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=532.0 | Desv=287.3
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1231.6s | ~1040.7s restantes
+
+
+  GEN 281/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=531.8 | Desv=288.0
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1277.3s | ~995.5s restantes
+
+
+  GEN 291/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=537.8 | Desv=281.6
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1323.1s | ~950.3s restantes
+
+
+  GEN 301/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=582.5 | Desv=322.9
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1368.7s | ~904.9s restantes
+
+
+  GEN 311/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=579.5 | Desv=310.7
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1414.6s | ~859.7s restantes
+
+
+  GEN 321/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=534.8 | Desv=282.9
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1460.5s | ~814.4s restantes
+
+
+  GEN 331/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=613.8 | Desv=330.3
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1506.5s | ~769.2s restantes
+
+
+  GEN 341/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=611.8 | Desv=319.9
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1552.0s | ~723.6s restantes
+
+
+  GEN 351/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=578.3 | Desv=298.3
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1597.3s | ~678.0s restantes
+
+
+  GEN 361/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=569.8 | Desv=310.8
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1643.0s | ~632.6s restantes
+
+
+  GEN 371/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=632.7 | Desv=344.9
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1689.6s | ~587.5s restantes
+
+
+  GEN 381/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=623.9 | Desv=337.1
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1738.0s | ~542.8s restantes
+
+
+  GEN 391/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=622.4 | Desv=344.1
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1784.5s | ~497.5s restantes
+
+
+  GEN 401/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=621.4 | Desv=352.1
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1831.6s | ~452.2s restantes
+
+
+  GEN 411/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=594.6 | Desv=311.3
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1878.8s | ~406.8s restantes
+
+
+  GEN 421/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=582.0 | Desv=303.9
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1925.8s | ~361.4s restantes
+
+
+  GEN 431/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=533.1 | Desv=286.0
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         1972.6s | ~315.8s restantes
+
+
+  GEN 441/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=521.1 | Desv=261.3
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         2019.3s | ~270.2s restantes
+
+
+  GEN 451/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=612.6 | Desv=342.3
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         2064.4s | ~224.3s restantes
+
+
+  GEN 461/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=552.6 | Desv=302.5
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         2109.8s | ~178.5s restantes
+
+
+  GEN 471/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=570.2 | Desv=308.7
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         2155.0s | ~132.7s restantes
+
+
+  GEN 481/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=582.4 | Desv=320.9
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         2200.5s | ~86.9s restantes
+
+
+  GEN 491/500
+  Fitness global: 1242.0 | Local: 1242.0
+  Población:      Mejor=1242.0 | Peor=392.0 | Prom=610.5 | Desv=329.9
+  Progreso:       33.1% | Altura: 960px
+  Tiempo:         2247.0s | ~41.2s restantes
+
+
+============================================================
+     RESULTADO FINAL
+============================================================
+  Mejor fitness:      1242.0
+  Mejor altura:       960px (Y=1990)
+  Progreso:           33.1%
+  Tiempo total:       2288.2 segundos
+  Generaciones:       500
+============================================================
+
+  Secuencia guardada en: mejor_secuencia.txt
+  Longitud secuencia: 1000 acciones
+PS C:\Users\hecto\Documents\GitHub\Reinforcement Learning> & "C:\Program Files\Python314\python.exe" "c:/Users/hecto/Documents/GitHub/Reinforcement Learning/evaluar_gen.py"
+pygame-ce 2.5.7 (SDL 2.32.10, Python 3.14.2)
+Secuencia cargada (1000 acciones)
+
+=== Repeticion 1/1 ===

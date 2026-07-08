@@ -35,7 +35,9 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
 
         accion_idx = 0
         frame_en_accion = 0
-        altura_maxima = constantes.suelo_y
+        altura_maxima_suelo = constantes.suelo_y
+        altura_maxima_aires = constantes.suelo_y
+        pasos_en_suelo = 0
 
         ejecutando = True
         while ejecutando:
@@ -53,6 +55,9 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
                         camara_y = 0
                         accion_idx = 0
                         frame_en_accion = 0
+                        altura_maxima_suelo = constantes.suelo_y
+                        altura_maxima_aires = constantes.suelo_y
+                        pasos_en_suelo = 0
                         print("Reiniciando...")
 
             accion = secuencia[accion_idx] if accion_idx < len(secuencia) else 0
@@ -118,8 +123,17 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
             target = jugador.forma.centery - constantes.alto_ventana // 2
             camara_y += (target - camara_y) * 0.1
 
-            if jugador.forma.centery < altura_maxima:
-                altura_maxima = jugador.forma.centery
+            altura_actual = jugador.forma.centery
+
+            if altura_actual < altura_maxima_aires:
+                altura_maxima_aires = altura_actual
+
+            if jugador.on_ground:
+                pasos_en_suelo += 1
+                if pasos_en_suelo >= 3 and altura_actual < altura_maxima_suelo:
+                    altura_maxima_suelo = altura_actual
+            else:
+                pasos_en_suelo = 0
 
             frame_en_accion += 1
             if frame_en_accion >= frames_por_accion:
@@ -134,10 +148,11 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
             jugador.dibujar(ventana, camara_y)
 
             font = pygame.font.SysFont(None, 30)
-            progreso = max(0, min(100, int((constantes.suelo_y - altura_maxima) / (constantes.suelo_y - 50) * 100)))
+            progreso_suelo = max(0, min(100, int((constantes.suelo_y - altura_maxima_suelo) / (constantes.suelo_y - 50) * 100)))
+            progreso_aire = max(0, min(100, int((constantes.suelo_y - altura_maxima_aires) / (constantes.suelo_y - 50) * 100)))
             accion_nombre = ["Idle", "Izq Full", "Der Full", "Izq 3/4", "Der 3/4"][accion]
             texto = font.render(
-                f"Accion: {accion_nombre} ({accion_idx+1}/{len(secuencia)}) | Progreso: {progreso}% | Altura: {constantes.suelo_y - altura_maxima:.0f}px",
+                f"Accion: {accion_nombre} ({accion_idx+1}/{len(secuencia)}) | Suelo: {progreso_suelo}% ({constantes.suelo_y - altura_maxima_suelo:.0f}px) | Aire: {progreso_aire}% ({constantes.suelo_y - altura_maxima_aires:.0f}px)",
                 True, (255, 255, 255)
             )
             ventana.blit(texto, (10, 10))
@@ -147,7 +162,7 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
             reloj.tick(int(velocidad * 60))
 
             if accion_idx >= len(secuencia):
-                print(f"Secuencia completada. Altura maxima: {constantes.suelo_y - altura_maxima:.0f}px | Progreso: {progreso}%")
+                print(f"Secuencia completada. Suelo: {constantes.suelo_y - altura_maxima_suelo:.0f}px ({progreso_suelo}%) | Aire: {constantes.suelo_y - altura_maxima_aires:.0f}px ({progreso_aire}%)")
                 time.sleep(2)
                 ejecutando = False
 
