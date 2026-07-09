@@ -27,6 +27,12 @@ def _evaluar_individual(args):
     altura_maxima_aires = constantes.suelo_y
     waypoints_visitados = set()
     altura_actual_suelo = constantes.suelo_y
+    consecutive_idle = 0
+    total_idle_frames = 0
+    prev_x = jugador.forma.x
+    total_stuck_frames = 0
+    prev_y = jugador.forma.centery
+    total_fallback_frames = 0
 
     for accion in secuencia:
         for frame in range(frames_por_accion):
@@ -108,7 +114,28 @@ def _evaluar_individual(args):
                 if altura_actual <= wp_y + 10 and jugador.on_ground:
                     waypoints_visitados.add(i)
 
-    fitness, _ = calcular_fitness(altura_maxima_suelo, altura_maxima_aires, waypoints_visitados, altura_actual_suelo)
+            if accion == 0:
+                consecutive_idle += 1
+                if consecutive_idle >= 3:
+                    total_idle_frames += 1
+            else:
+                consecutive_idle = 0
+
+            if accion in (1, 2, 3, 4):
+                if jugador.forma.x == prev_x:
+                    total_stuck_frames += 1
+            prev_x = jugador.forma.x
+
+            if altura_actual > prev_y:
+                total_fallback_frames += 1
+            prev_y = altura_actual
+
+    fitness, _ = calcular_fitness(
+        altura_maxima_suelo, altura_maxima_aires,
+        waypoints_visitados, altura_actual_suelo,
+        total_idle_frames, total_stuck_frames,
+        total_fallback_frames
+    )
     return fitness, altura_maxima_suelo, altura_maxima_aires
 
 
@@ -139,6 +166,12 @@ class JuegoEvolutivo:
         altura_maxima_aires = constantes.suelo_y
         waypoints_visitados = set()
         altura_actual_suelo = constantes.suelo_y
+        consecutive_idle = 0
+        total_idle_frames = 0
+        prev_x = jugador.forma.x
+        total_stuck_frames = 0
+        prev_y = jugador.forma.centery
+        total_fallback_frames = 0
 
         for accion in secuencia:
             for frame in range(frames_por_accion):
@@ -216,11 +249,32 @@ class JuegoEvolutivo:
                 else:
                     pasos_en_suelo = 0
 
-                for i, wp_y in enumerate(WAYPOINT_Y_VALUES):
-                    if altura_actual <= wp_y + 10 and jugador.on_ground:
-                        waypoints_visitados.add(i)
+            for i, wp_y in enumerate(WAYPOINT_Y_VALUES):
+                if altura_actual <= wp_y + 10 and jugador.on_ground:
+                    waypoints_visitados.add(i)
 
-        fitness, _ = calcular_fitness(altura_maxima_suelo, altura_maxima_aires, waypoints_visitados, altura_actual_suelo)
+            if accion == 0:
+                consecutive_idle += 1
+                if consecutive_idle >= 3:
+                    total_idle_frames += 1
+            else:
+                consecutive_idle = 0
+
+            if accion in (1, 2, 3, 4):
+                if jugador.forma.x == prev_x:
+                    total_stuck_frames += 1
+            prev_x = jugador.forma.x
+
+            if altura_actual > prev_y:
+                total_fallback_frames += 1
+            prev_y = altura_actual
+
+        fitness, _ = calcular_fitness(
+            altura_maxima_suelo, altura_maxima_aires,
+            waypoints_visitados, altura_actual_suelo,
+            total_idle_frames, total_stuck_frames,
+            total_fallback_frames
+        )
         return fitness, altura_maxima_suelo, altura_maxima_aires
 
 

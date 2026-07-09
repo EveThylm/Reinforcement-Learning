@@ -41,6 +41,12 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
         pasos_en_suelo = 0
         waypoints_visitados = set()
         altura_actual_suelo = constantes.suelo_y
+        consecutive_idle = 0
+        total_idle_frames = 0
+        prev_x = jugador.forma.x
+        total_stuck_frames = 0
+        prev_y = jugador.forma.centery
+        total_fallback_frames = 0
 
         ejecutando = True
         while ejecutando:
@@ -63,6 +69,12 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
                         pasos_en_suelo = 0
                         waypoints_visitados = set()
                         altura_actual_suelo = constantes.suelo_y
+                        consecutive_idle = 0
+                        total_idle_frames = 0
+                        prev_x = jugador.forma.x
+                        total_stuck_frames = 0
+                        prev_y = jugador.forma.centery
+                        total_fallback_frames = 0
                         print("Reiniciando...")
 
             accion = secuencia[accion_idx] if accion_idx < len(secuencia) else 0
@@ -145,6 +157,22 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
                 if altura_actual <= wp_y + 10 and jugador.on_ground:
                     waypoints_visitados.add(i)
 
+            if accion == 0:
+                consecutive_idle += 1
+                if consecutive_idle >= 3:
+                    total_idle_frames += 1
+            else:
+                consecutive_idle = 0
+
+            if accion in (1, 2, 3, 4):
+                if jugador.forma.x == prev_x:
+                    total_stuck_frames += 1
+            prev_x = jugador.forma.x
+
+            if altura_actual > prev_y:
+                total_fallback_frames += 1
+            prev_y = altura_actual
+
             frame_en_accion += 1
             if frame_en_accion >= frames_por_accion:
                 frame_en_accion = 0
@@ -160,7 +188,12 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
             font = pygame.font.SysFont(None, 30)
             progreso_suelo = max(0, min(100, int((constantes.suelo_y - altura_maxima_suelo) / (constantes.suelo_y - 50) * 100)))
             progreso_aire = max(0, min(100, int((constantes.suelo_y - altura_maxima_aires) / (constantes.suelo_y - 50) * 100)))
-            fitness_actual, _ = calcular_fitness(altura_maxima_suelo, altura_maxima_aires, waypoints_visitados, altura_actual_suelo)
+            fitness_actual, _ = calcular_fitness(
+                altura_maxima_suelo, altura_maxima_aires,
+                waypoints_visitados, altura_actual_suelo,
+                total_idle_frames, total_stuck_frames,
+                total_fallback_frames
+            )
             accion_nombre = ["Idle", "Izq Full", "Der Full", "Izq 3/4", "Der 3/4"][accion]
             texto = font.render(
                 f"Accion: {accion_nombre} ({accion_idx+1}/{len(secuencia)}) | Suelo: {progreso_suelo}% | Aire: {progreso_aire}% | WP: {len(waypoints_visitados)}/{len(WAYPOINT_Y_VALUES)} | Fitness: {fitness_actual:.0f}",
@@ -173,12 +206,20 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
             reloj.tick(int(velocidad * 60))
 
             if accion_idx >= len(secuencia):
-                fitness_final, datos = calcular_fitness(altura_maxima_suelo, altura_maxima_aires, waypoints_visitados, altura_actual_suelo)
+                fitness_final, datos = calcular_fitness(
+                    altura_maxima_suelo, altura_maxima_aires,
+                    waypoints_visitados, altura_actual_suelo,
+                    total_idle_frames, total_stuck_frames,
+                    total_fallback_frames
+                )
                 print(f"\n=== FITNESS BREAKDOWN ===")
                 print(f"  Suelo:     {datos['suelo_px']:.0f}px x 1.0  = {datos['suelo']:.1f}")
                 print(f"  Aire:      {datos['aire_px']:.0f}px x 0.5 = {datos['aire']:.1f}")
-                print(f"  Waypoints: {datos['waypoints_count']}/{datos['waypoints_total']} x 50 = {datos['waypoints']:.1f}")
+                print(f"  Waypoints: {datos['waypoints_count']}/{datos['waypoints_total']} x 200 = {datos['waypoints']:.1f}")
                 print(f"  Caida:     {datos['caida_px']:.0f}px x -2   = {-datos['caida'] * 2:.1f}")
+                print(f"  Idle:      {datos['idle_frames']} frames x -0.5 = {-datos['idle_penalty']:.1f}")
+                print(f"  Wall:      {datos['wall_hits']} hits x -1.0  = {-datos['wall_penalty']:.1f}")
+                print(f"  Fallback:  {datos['fallback_frames']} frames x -5.0 = {-datos['fallback_penalty']:.1f}")
                 print(f"  {'='*30}")
                 print(f"  TOTAL FITNESS:          = {fitness_final:.1f}")
                 print(f"  Suelo: {progreso_suelo}% ({constantes.suelo_y - altura_maxima_suelo:.0f}px) | Aire: {progreso_aire}% ({constantes.suelo_y - altura_maxima_aires:.0f}px)")

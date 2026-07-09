@@ -1,0 +1,1033 @@
+  Población:      Mejor=1108.5 | Peor=0.0 | Prom=58.8 | Desv=160.4
+  Tiempo:         10.1s transcurridos | ~5031.7s restantes
+============================================================
+
+
+  GEN 11/1000
+  Fitness global: 1108.5 | Local: 1108.5
+  Población:      Mejor=1108.5 | Peor=0.0 | Prom=103.5 | Desv=254.5
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.270 | Sin mejora: 9 gens
+  Tiempo:         54.5s | ~4897.3s restantes
+
+
+  GEN 21/1000
+  Fitness global: 1108.5 | Local: 1108.5
+  Población:      Mejor=1108.5 | Peor=0.0 | Prom=65.1 | Desv=228.5
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 19 gens
+  Tiempo:         102.6s | ~4783.5s restantes
+
+
+  GEN 31/1000
+  Fitness global: 1108.5 | Local: 1108.5
+  Población:      Mejor=1108.5 | Peor=0.0 | Prom=63.0 | Desv=223.6
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 29 gens
+  Tiempo:         149.4s | ~4668.9s restantes
+
+
+============================================================
+  GEN 37/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1246.5
+  Altura suelo:   570px (Y=2380)
+  Progreso:       19.7%
+  Mutación:       0.270
+  Población:      Mejor=1246.5 | Peor=0.0 | Prom=79.6 | Desv=252.8
+  Tiempo:         177.0s transcurridos | ~4606.4s restantes
+============================================================
+
+
+============================================================
+  GEN 38/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1384.0
+  Altura suelo:   570px (Y=2380)
+  Progreso:       19.7%
+  Mutación:       0.270
+  Población:      Mejor=1384.0 | Peor=0.0 | Prom=109.2 | Desv=304.7
+  Tiempo:         181.6s transcurridos | ~4596.8s restantes
+============================================================
+
+
+  GEN 41/1000
+  Fitness global: 1384.0 | Local: 1384.0
+  Población:      Mejor=1384.0 | Peor=0.0 | Prom=106.2 | Desv=321.4
+  Progreso:       19.7% | Altura: 570px
+  Mutación:       0.270 | Sin mejora: 3 gens
+  Tiempo:         196.0s | ~4584.8s restantes
+
+
+============================================================
+  GEN 42/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1471.5
+  Altura suelo:   570px (Y=2380)
+  Progreso:       19.7%
+  Mutación:       0.270
+  Población:      Mejor=1471.5 | Peor=0.0 | Prom=108.9 | Desv=345.4
+  Tiempo:         200.9s transcurridos | ~4582.0s restantes
+============================================================
+
+
+  GEN 51/1000
+  Fitness global: 1471.5 | Local: 1471.5
+  Población:      Mejor=1471.5 | Peor=0.0 | Prom=159.1 | Desv=412.4
+  Progreso:       19.7% | Altura: 570px
+  Mutación:       0.270 | Sin mejora: 9 gens
+  Tiempo:         245.0s | ~4558.9s restantes
+
+
+============================================================
+  GEN 53/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1484.0
+  Altura suelo:   570px (Y=2380)
+  Progreso:       19.7%
+  Mutación:       0.270
+  Población:      Mejor=1484.0 | Peor=0.0 | Prom=130.4 | Desv=373.3
+  Tiempo:         254.6s transcurridos | ~4549.8s restantes
+============================================================
+
+
+============================================================
+  GEN 54/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1493.5
+  Altura suelo:   570px (Y=2380)
+  Progreso:       19.7%
+  Mutación:       0.270
+  Población:      Mejor=1493.5 | Peor=0.0 | Prom=126.2 | Desv=366.6
+  Tiempo:         259.5s transcurridos | ~4545.8s restantes
+============================================================
+
+
+============================================================
+  GEN 55/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1522.5
+  Altura suelo:   570px (Y=2380)
+  Progreso:       19.7%
+  Mutación:       0.270
+  Población:      Mejor=1522.5 | Peor=0.0 | Prom=168.5 | Desv=437.4
+  Tiempo:         264.2s transcurridos | ~4539.0s restantes
+============================================================
+
+
+  GEN 61/1000
+  Fitness global: 1522.5 | Local: 1522.5
+  Población:      Mejor=1522.5 | Peor=0.0 | Prom=130.8 | Desv=357.2
+  Progreso:       19.7% | Altura: 570px
+  Mutación:       0.270 | Sin mejora: 6 gens
+  Tiempo:         291.7s | ~4490.2s restantes
+
+
+============================================================
+  GEN 66/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1550.5
+  Altura suelo:   570px (Y=2380)
+  Progreso:       19.7%
+  Mutación:       0.270
+  Población:      Mejor=1550.5 | Peor=0.0 | Prom=108.8 | Desv=383.6
+  Tiempo:         314.5s transcurridos | ~4451.2s restantes
+============================================================
+
+
+============================================================
+  GEN 71/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1588.0
+  Altura suelo:   570px (Y=2380)
+  Progreso:       19.7%
+  Mutación:       0.270
+  Población:      Mejor=1588.0 | Peor=0.0 | Prom=93.2 | Desv=366.6
+  Tiempo:         337.2s transcurridos | ~4412.0s restantes
+============================================================
+
+
+============================================================
+  GEN 73/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        1606.0
+  Altura suelo:   570px (Y=2380)
+  Progreso:       19.7%
+  Mutación:       0.270
+  Población:      Mejor=1606.0 | Peor=0.0 | Prom=136.6 | Desv=402.6
+  Tiempo:         346.3s transcurridos | ~4397.7s restantes
+============================================================
+
+
+  GEN 81/1000
+  Fitness global: 1606.0 | Local: 1606.0
+  Población:      Mejor=1606.0 | Peor=0.0 | Prom=105.3 | Desv=375.4
+  Progreso:       19.7% | Altura: 570px
+  Mutación:       0.270 | Sin mejora: 8 gens
+  Tiempo:         385.2s | ~4370.0s restantes
+
+
+============================================================
+  GEN 82/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        2013.0
+  Altura suelo:   220px (Y=2730)
+  Progreso:       7.6%
+  Mutación:       0.270
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=152.7 | Desv=464.0
+  Tiempo:         390.2s transcurridos | ~4368.7s restantes
+============================================================
+
+
+  GEN 91/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=95.9 | Desv=371.6
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.270 | Sin mejora: 9 gens
+  Tiempo:         434.6s | ~4341.6s restantes
+
+
+  GEN 101/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=101.4 | Desv=371.8
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 19 gens
+  Tiempo:         483.7s | ~4305.8s restantes
+
+
+  GEN 111/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=103.5 | Desv=382.8
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 29 gens
+  Tiempo:         531.1s | ~4253.7s restantes
+
+
+  GEN 121/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=106.9 | Desv=393.2
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 39 gens
+  Tiempo:         581.6s | ~4224.8s restantes
+
+
+  GEN 131/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=114.2 | Desv=392.4
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 49 gens
+  Tiempo:         632.0s | ~4192.4s restantes
+
+
+  GEN 141/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=103.7 | Desv=389.7
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 59 gens
+  Tiempo:         680.3s | ~4144.3s restantes
+
+
+  GEN 151/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=105.1 | Desv=394.0
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 69 gens
+  Tiempo:         728.2s | ~4094.4s restantes
+
+
+  GEN 161/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=114.1 | Desv=392.9
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 79 gens
+  Tiempo:         775.7s | ~4042.3s restantes
+
+
+  GEN 171/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=104.0 | Desv=397.4
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 89 gens
+  Tiempo:         823.1s | ~3990.6s restantes
+
+
+  GEN 181/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=119.9 | Desv=412.3
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 99 gens
+  Tiempo:         871.4s | ~3942.9s restantes
+
+
+  GEN 191/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=103.0 | Desv=390.5
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 109 gens
+  Tiempo:         918.9s | ~3892.3s restantes
+
+
+  GEN 201/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=113.0 | Desv=403.9
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 119 gens
+  Tiempo:         966.8s | ~3843.3s restantes
+
+
+  GEN 211/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=102.7 | Desv=390.6
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 129 gens
+  Tiempo:         1011.8s | ~3783.3s restantes
+
+
+  GEN 221/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=125.3 | Desv=413.9
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 139 gens
+  Tiempo:         1055.4s | ~3720.1s restantes
+
+
+  GEN 231/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=109.9 | Desv=393.9
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 149 gens
+  Tiempo:         1099.0s | ~3658.6s restantes
+
+
+  GEN 241/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=105.5 | Desv=394.9
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 159 gens
+  Tiempo:         1142.6s | ~3598.4s restantes
+
+
+  GEN 251/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=114.5 | Desv=396.7
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 169 gens
+  Tiempo:         1186.1s | ~3539.4s restantes
+
+
+  GEN 261/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=126.1 | Desv=413.1
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 179 gens
+  Tiempo:         1230.0s | ~3482.5s restantes
+
+
+  GEN 271/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=103.3 | Desv=403.7
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 189 gens
+  Tiempo:         1273.5s | ~3425.8s restantes
+
+
+  GEN 281/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=115.0 | Desv=425.3
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 199 gens
+  Tiempo:         1317.1s | ~3370.0s restantes
+
+
+  GEN 291/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=109.1 | Desv=404.2
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 209 gens
+  Tiempo:         1360.7s | ~3315.1s restantes
+
+
+  GEN 301/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=107.5 | Desv=412.2
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 219 gens
+  Tiempo:         1404.3s | ~3261.1s restantes
+
+
+  GEN 311/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=111.2 | Desv=413.0
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 229 gens
+  Tiempo:         1447.9s | ~3207.6s restantes
+
+
+  GEN 321/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=102.5 | Desv=412.7
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 239 gens
+  Tiempo:         1491.6s | ~3155.1s restantes
+
+
+  GEN 331/1000
+  Fitness global: 2013.0 | Local: 2013.0
+  Población:      Mejor=2013.0 | Peor=0.0 | Prom=134.0 | Desv=430.6
+  Progreso:       7.6% | Altura: 220px
+  Mutación:       0.600 | Sin mejora: 249 gens
+  Tiempo:         1535.3s | ~3103.0s restantes
+
+
+============================================================
+  GEN 334/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        2508.0
+  Altura suelo:   500px (Y=2450)
+  Progreso:       17.2%
+  Mutación:       0.270
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=136.5 | Desv=479.7
+  Tiempo:         1548.3s transcurridos | ~3087.4s restantes
+============================================================
+
+
+  GEN 341/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=201.8 | Desv=563.5
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.270 | Sin mejora: 7 gens
+  Tiempo:         1578.8s | ~3051.1s restantes
+
+
+  GEN 351/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=128.6 | Desv=495.7
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.526 | Sin mejora: 17 gens
+  Tiempo:         1622.2s | ~2999.4s restantes
+
+
+  GEN 361/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=128.6 | Desv=491.4
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 27 gens
+  Tiempo:         1665.6s | ~2948.3s restantes
+
+
+  GEN 371/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=132.8 | Desv=513.0
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 37 gens
+  Tiempo:         1709.4s | ~2898.2s restantes
+
+
+  GEN 381/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=124.8 | Desv=512.0
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 47 gens
+  Tiempo:         1753.1s | ~2848.2s restantes
+
+
+  GEN 391/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=128.9 | Desv=512.3
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 57 gens
+  Tiempo:         1796.8s | ~2798.7s restantes
+
+
+  GEN 401/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=171.4 | Desv=526.9
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 67 gens
+  Tiempo:         1840.5s | ~2749.3s restantes
+
+
+  GEN 411/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=133.2 | Desv=512.8
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 77 gens
+  Tiempo:         1884.2s | ~2700.3s restantes
+
+
+  GEN 421/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=143.8 | Desv=516.8
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 87 gens
+  Tiempo:         1927.9s | ~2651.5s restantes
+
+
+  GEN 431/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=129.3 | Desv=511.6
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 97 gens
+  Tiempo:         1971.5s | ~2602.8s restantes
+
+
+  GEN 441/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=138.2 | Desv=525.0
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 107 gens
+  Tiempo:         2015.0s | ~2554.2s restantes
+
+
+  GEN 451/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=126.3 | Desv=517.2
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 117 gens
+  Tiempo:         2058.6s | ~2505.9s restantes
+
+
+  GEN 461/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=134.8 | Desv=520.4
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 127 gens
+  Tiempo:         2102.2s | ~2457.9s restantes
+
+
+  GEN 471/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=145.8 | Desv=528.4
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 137 gens
+  Tiempo:         2145.8s | ~2410.1s restantes
+
+
+  GEN 481/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=127.6 | Desv=518.6
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 147 gens
+  Tiempo:         2189.6s | ~2362.6s restantes
+
+
+  GEN 491/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=129.8 | Desv=518.6
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 157 gens
+  Tiempo:         2233.3s | ~2315.2s restantes
+
+
+  GEN 501/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=128.3 | Desv=518.4
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 167 gens
+  Tiempo:         2277.2s | ~2268.1s restantes
+
+
+  GEN 511/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=141.6 | Desv=520.3
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 177 gens
+  Tiempo:         2321.0s | ~2221.1s restantes
+
+
+  GEN 521/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=136.0 | Desv=518.9
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 187 gens
+  Tiempo:         2364.9s | ~2174.2s restantes
+
+
+  GEN 531/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=134.7 | Desv=524.4
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 197 gens
+  Tiempo:         2408.5s | ~2127.3s restantes
+
+
+  GEN 541/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=138.1 | Desv=519.4
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 207 gens
+  Tiempo:         2452.4s | ~2080.7s restantes
+
+
+  GEN 551/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=146.7 | Desv=531.6
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 217 gens
+  Tiempo:         2496.0s | ~2033.9s restantes
+
+
+  GEN 561/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=125.8 | Desv=519.4
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 227 gens
+  Tiempo:         2539.8s | ~1987.5s restantes
+
+
+  GEN 571/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=136.0 | Desv=521.3
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 237 gens
+  Tiempo:         2583.6s | ~1941.1s restantes
+
+
+  GEN 581/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=133.7 | Desv=523.1
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 247 gens
+  Tiempo:         2627.4s | ~1894.8s restantes
+
+
+  GEN 591/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=174.6 | Desv=553.9
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 257 gens
+  Tiempo:         2671.1s | ~1848.6s restantes
+
+
+  GEN 601/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=123.6 | Desv=520.7
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 267 gens
+  Tiempo:         2715.1s | ~1802.5s restantes
+
+
+  GEN 611/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=136.6 | Desv=521.2
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 277 gens
+  Tiempo:         2758.8s | ~1756.4s restantes
+
+
+  GEN 621/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=134.2 | Desv=524.4
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 287 gens
+  Tiempo:         2802.6s | ~1710.5s restantes
+
+
+  GEN 631/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=157.8 | Desv=553.8
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 297 gens
+  Tiempo:         2846.5s | ~1664.6s restantes
+
+
+  GEN 641/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=143.9 | Desv=528.9
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 307 gens
+  Tiempo:         2891.0s | ~1619.1s restantes
+
+
+  GEN 651/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=150.6 | Desv=527.2
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 317 gens
+  Tiempo:         2935.2s | ~1573.6s restantes
+
+
+  GEN 661/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=144.8 | Desv=527.5
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 327 gens
+  Tiempo:         2979.0s | ~1527.8s restantes
+
+
+  GEN 671/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=130.6 | Desv=523.1
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 337 gens
+  Tiempo:         3024.4s | ~1482.9s restantes
+
+
+  GEN 681/1000
+  Fitness global: 2508.0 | Local: 2508.0
+  Población:      Mejor=2508.0 | Peor=0.0 | Prom=135.1 | Desv=521.0
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.600 | Sin mejora: 347 gens
+  Tiempo:         3070.7s | ~1438.4s restantes
+
+
+============================================================
+  GEN 682/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        2550.5
+  Altura suelo:   500px (Y=2450)
+  Progreso:       17.2%
+  Mutación:       0.270
+  Población:      Mejor=2550.5 | Peor=0.0 | Prom=146.9 | Desv=573.5
+  Tiempo:         3075.3s transcurridos | ~1433.9s restantes
+============================================================
+
+
+============================================================
+  GEN 684/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        2552.5
+  Altura suelo:   500px (Y=2450)
+  Progreso:       17.2%
+  Mutación:       0.270
+  Población:      Mejor=2552.5 | Peor=0.0 | Prom=210.0 | Desv=659.3
+  Tiempo:         3084.8s transcurridos | ~1425.1s restantes
+============================================================
+
+
+============================================================
+  GEN 687/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        2589.0
+  Altura suelo:   500px (Y=2450)
+  Progreso:       17.2%
+  Mutación:       0.270
+  Población:      Mejor=2589.0 | Peor=0.0 | Prom=210.3 | Desv=672.5
+  Tiempo:         3098.5s transcurridos | ~1411.7s restantes
+============================================================
+
+
+  GEN 691/1000
+  Fitness global: 2589.0 | Local: 2589.0
+  Población:      Mejor=2589.0 | Peor=0.0 | Prom=188.5 | Desv=624.3
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.270 | Sin mejora: 4 gens
+  Tiempo:         3117.1s | ~1393.9s restantes
+
+
+============================================================
+  GEN 697/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        2599.0
+  Altura suelo:   500px (Y=2450)
+  Progreso:       17.2%
+  Mutación:       0.270
+  Población:      Mejor=2599.0 | Peor=0.0 | Prom=217.7 | Desv=695.7
+  Tiempo:         3145.1s transcurridos | ~1367.2s restantes
+============================================================
+
+
+  GEN 701/1000
+  Fitness global: 2599.0 | Local: 2599.0
+  Población:      Mejor=2599.0 | Peor=0.0 | Prom=148.8 | Desv=565.2
+  Progreso:       17.2% | Altura: 500px
+  Mutación:       0.270 | Sin mejora: 4 gens
+  Tiempo:         3163.4s | ~1349.3s restantes
+
+
+============================================================
+  GEN 709/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        2749.5
+  Altura suelo:   750px (Y=2200)
+  Progreso:       25.9%
+  Mutación:       0.270
+  Población:      Mejor=2749.5 | Peor=0.0 | Prom=172.6 | Desv=623.2
+  Tiempo:         3200.8s transcurridos | ~1313.7s restantes
+============================================================
+
+
+  GEN 711/1000
+  Fitness global: 2749.5 | Local: 2749.5
+  Población:      Mejor=2749.5 | Peor=0.0 | Prom=206.9 | Desv=666.7
+  Progreso:       25.9% | Altura: 750px
+  Mutación:       0.270 | Sin mejora: 2 gens
+  Tiempo:         3209.9s | ~1304.7s restantes
+
+
+============================================================
+  GEN 720/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        2848.5
+  Altura suelo:   750px (Y=2200)
+  Progreso:       25.9%
+  Mutación:       0.270
+  Población:      Mejor=2848.5 | Peor=0.0 | Prom=185.9 | Desv=640.1
+  Tiempo:         3251.8s transcurridos | ~1264.6s restantes
+============================================================
+
+
+  GEN 721/1000
+  Fitness global: 2848.5 | Local: 2848.5
+  Población:      Mejor=2848.5 | Peor=0.0 | Prom=158.6 | Desv=591.4
+  Progreso:       25.9% | Altura: 750px
+  Mutación:       0.270 | Sin mejora: 1 gens
+  Tiempo:         3256.5s | ~1260.1s restantes
+
+
+  GEN 731/1000
+  Fitness global: 2848.5 | Local: 2848.5
+  Población:      Mejor=2848.5 | Peor=0.0 | Prom=193.2 | Desv=601.4
+  Progreso:       25.9% | Altura: 750px
+  Mutación:       0.297 | Sin mejora: 11 gens
+  Tiempo:         3303.3s | ~1215.6s restantes
+
+
+============================================================
+  GEN 732/1000 - ¡NUEVO MEJOR!
+============================================================
+  Fitness:        2938.0
+  Altura suelo:   870px (Y=2080)
+  Progreso:       30.0%
+  Mutación:       0.270
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=222.2 | Desv=665.2
+  Tiempo:         3307.9s transcurridos | ~1211.1s restantes
+============================================================
+
+
+  GEN 741/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=223.1 | Desv=730.9
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.270 | Sin mejora: 9 gens
+  Tiempo:         3349.8s | ~1170.8s restantes
+
+
+  GEN 751/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=161.1 | Desv=627.7
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 19 gens
+  Tiempo:         3396.1s | ~1126.0s restantes
+
+
+  GEN 761/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=190.5 | Desv=694.4
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 29 gens
+  Tiempo:         3443.0s | ~1081.3s restantes
+
+
+  GEN 771/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=169.4 | Desv=638.3
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 39 gens
+  Tiempo:         3489.9s | ~1036.5s restantes
+
+
+  GEN 781/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=150.3 | Desv=628.5
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 49 gens
+  Tiempo:         3536.7s | ~991.7s restantes
+
+
+  GEN 791/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=188.9 | Desv=638.4
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 59 gens
+  Tiempo:         3583.2s | ~946.8s restantes
+
+
+  GEN 801/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=165.9 | Desv=630.4
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 69 gens
+  Tiempo:         3630.2s | ~901.9s restantes
+
+
+  GEN 811/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=157.8 | Desv=627.3
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 79 gens
+  Tiempo:         3676.5s | ~856.8s restantes
+
+
+  GEN 821/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=166.5 | Desv=634.7
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 89 gens
+  Tiempo:         3722.9s | ~811.7s restantes
+
+
+  GEN 831/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=163.9 | Desv=627.6
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 99 gens
+  Tiempo:         3769.8s | ~766.7s restantes
+
+
+  GEN 841/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=170.5 | Desv=635.3
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 109 gens
+  Tiempo:         3816.7s | ~721.6s restantes
+
+
+  GEN 851/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=149.7 | Desv=627.3
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 119 gens
+  Tiempo:         3863.8s | ~676.5s restantes
+
+
+  GEN 861/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=160.3 | Desv=630.1
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 129 gens
+  Tiempo:         3910.9s | ~631.4s restantes
+
+
+  GEN 871/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=157.8 | Desv=630.8
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 139 gens
+  Tiempo:         3957.7s | ~586.2s restantes
+
+
+  GEN 881/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=171.6 | Desv=634.0
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 149 gens
+  Tiempo:         4004.6s | ~540.9s restantes
+
+
+  GEN 891/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=170.1 | Desv=628.0
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 159 gens
+  Tiempo:         4051.4s | ~495.6s restantes
+
+
+  GEN 901/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=154.9 | Desv=627.2
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 169 gens
+  Tiempo:         4098.2s | ~450.3s restantes
+
+
+  GEN 911/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=165.1 | Desv=628.6
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 179 gens
+  Tiempo:         4144.9s | ~404.9s restantes
+
+
+  GEN 921/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=162.1 | Desv=628.1
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 189 gens
+  Tiempo:         4192.0s | ~359.6s restantes
+
+
+  GEN 931/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=149.2 | Desv=627.6
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 199 gens
+  Tiempo:         4238.6s | ~314.1s restantes
+
+
+  GEN 941/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=167.1 | Desv=629.6
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 209 gens
+  Tiempo:         4285.6s | ~268.7s restantes
+
+
+  GEN 951/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=153.3 | Desv=627.5
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 219 gens
+  Tiempo:         4332.5s | ~223.2s restantes
+
+
+  GEN 961/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=155.9 | Desv=630.0
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 229 gens
+  Tiempo:         4379.8s | ~177.7s restantes
+
+
+  GEN 971/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=163.4 | Desv=629.4
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 239 gens
+  Tiempo:         4426.2s | ~132.2s restantes
+
+
+  GEN 981/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=168.4 | Desv=630.4
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 249 gens
+  Tiempo:         4473.2s | ~86.6s restantes
+
+
+  GEN 991/1000
+  Fitness global: 2938.0 | Local: 2938.0
+  Población:      Mejor=2938.0 | Peor=0.0 | Prom=162.3 | Desv=628.1
+  Progreso:       30.0% | Altura: 870px
+  Mutación:       0.600 | Sin mejora: 259 gens
+  Tiempo:         4519.9s | ~41.0s restantes
+
+
+============================================================
+     RESULTADO FINAL
+============================================================
+  Mejor fitness:      2938.0
+  Mejor altura:       870px (Y=2080)
+  Progreso:           30.0%
+  Tiempo total:       4562.0 segundos
+  Generaciones:       1000
+============================================================
+
+  Secuencia guardada en: mejor_secuencia.txt
+  Longitud secuencia: 500 acciones
+PS C:\Users\hecto\Documents\GitHub\Reinforcement Learning> 
+
+=== Repeticion 1/1 ===
+
+=== FITNESS BREAKDOWN ===
+  Suelo:     870px x 1.0  = 870.0
+  Aire:      1014px x 0.5 = 1014.0
+  Waypoints: 14/40 x 200 = 2800.0
+  Caida:     0px x -2   = 0.0
+  Idle:      2354 frames x -0.5 = -1177.0
+  Wall:      5145 hits x -1.0  = -5145.0
+  Fallback:  7553 frames x -5.0 = -37765.0
+  ==============================
+  TOTAL FITNESS:          = 0.0
+  Suelo: 30% (870px) | Aire: 34% (1014px)
+PS C:\Users\hecto\Documents\GitHub\Reinforcement Learning> 
