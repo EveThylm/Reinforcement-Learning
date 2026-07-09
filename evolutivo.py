@@ -354,7 +354,7 @@ def seleccionar_por_torneo(poblacion, fitnesses, k=3, n=5):
 def ejecutar_evolutivo(
     generaciones=1000,
     tamano_poblacion=100,
-    longitud_secuencia=500,
+    longitud_secuencia=750,
     frames_por_accion=30,
     tasa_mutacion=0.3,
     elites=5,
@@ -517,7 +517,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Algoritmo evolutivo para Jump King")
     parser.add_argument("--generaciones", type=int, default=1000)
     parser.add_argument("--poblacion", type=int, default=100)
-    parser.add_argument("--acciones", type=int, default=500)
+    parser.add_argument("--acciones", type=int, default=750)
     parser.add_argument("--mutacion", type=float, default=0.3)
     parser.add_argument("--elites", type=int, default=5, help="Élites directas (mejores por fitness)")
     parser.add_argument("--padres", type=int, default=10, help="Padres por torneo (para reproducción)")
