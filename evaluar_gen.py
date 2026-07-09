@@ -219,7 +219,7 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
                 print(f"  Caida:     {datos['caida_px']:.0f}px x -2   = {-datos['caida'] * 2:.1f}")
                 print(f"  Idle:      {datos['idle_frames']} frames x -0.5 = {-datos['idle_penalty']:.1f}")
                 print(f"  Wall:      {datos['wall_hits']} hits x -1.0  = {-datos['wall_penalty']:.1f}")
-                print(f"  Fallback:  {datos['fallback_frames']} frames x -5.0 = {-datos['fallback_penalty']:.1f}")
+                print(f"  Fallback:  {datos['fallback_frames']} frames x -1.0 = {-datos['fallback_penalty']:.1f}")
                 print(f"  {'='*30}")
                 print(f"  TOTAL FITNESS:          = {fitness_final:.1f}")
                 print(f"  Suelo: {progreso_suelo}% ({constantes.suelo_y - altura_maxima_suelo:.0f}px) | Aire: {progreso_aire}% ({constantes.suelo_y - altura_maxima_aires:.0f}px)")

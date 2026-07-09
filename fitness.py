@@ -19,7 +19,7 @@ def calcular_fitness(
     caida = altura_actual_suelo - altura_maxima_suelo if altura_actual_suelo > altura_maxima_suelo else 0
     idle_penalty = total_idle_frames * 0.5
     wall_penalty = total_stuck_frames * 1.0
-    fallback_penalty = total_fallback_frames * 5.0
+    fallback_penalty = total_fallback_frames * 1.0
 
     fitness = (fitness_suelo * 1.0 + fitness_aire * 0.5 + waypoint_bonus
                - caida * 2 - idle_penalty - wall_penalty - fallback_penalty)
