@@ -311,6 +311,7 @@ def ejecutar_evolutivo(
     frames_por_accion=30,
     tasa_mutacion=0.3,
     elites=5,
+    padres=10,
     usar_paralelo=False,
 ):
     print("=" * 60)
@@ -321,8 +322,8 @@ def ejecutar_evolutivo(
     print(f"  Acciones/secuencia:  {longitud_secuencia}")
     print(f"  Frames/acción:       {frames_por_accion}")
     print(f"  Tasa mutación:       {tasa_mutacion} (adaptativa)")
-    print(f"  Élites:              {elites}")
-    print(f"  Selección:           torneo (k=3)")
+    print(f"  Élites directas:     {elites} (mejores por fitness)")
+    print(f"  Padres torneo:       {padres} (k=3, para reproducción)")
     print(f"  Paralelo:            {usar_paralelo}")
     print("=" * 60)
     print()
@@ -412,19 +413,23 @@ def ejecutar_evolutivo(
                 print(f"  Tiempo:         {tiempo_transcurrido:.1f}s | ~{tiempo_restante:.1f}s restantes")
                 print()
 
-        elitesSeleccionadas = seleccionar_por_torneo(poblacion, fitnesses, k=3, n=elites)
-        nueva_poblacion = elitesSeleccionadas.copy()
+        indices_ordenados = sorted(range(len(fitnesses)), key=lambda i: fitnesses[i], reverse=True)
+        elites_directas = [poblacion[i] for i in indices_ordenados[:elites]]
+
+        padres_torneo = seleccionar_por_torneo(poblacion, fitnesses, k=3, n=padres)
+
+        nueva_poblacion = elites_directas.copy()
 
         while len(nueva_poblacion) < tamano_poblacion:
             if random.random() < 0.5:
-                padre = random.choice(elitesSeleccionadas)
+                padre = random.choice(padres_torneo)
                 if random.random() < 0.5:
                     hijo = mutar_secuencia(padre, tasa_mutacion_actual)
                 else:
                     hijo = mutar_por_segmentos(padre, tasa_mutacion_actual)
             else:
-                padre1 = random.choice(elitesSeleccionadas)
-                padre2 = random.choice(elitesSeleccionadas)
+                padre1 = random.choice(padres_torneo)
+                padre2 = random.choice(padres_torneo)
                 hijo = cruzar_secuencias(padre1, padre2)
                 hijo = mutar_secuencia(hijo, tasa_mutacion_actual * 0.5)
             nueva_poblacion.append(hijo)
@@ -467,6 +472,8 @@ if __name__ == "__main__":
     parser.add_argument("--poblacion", type=int, default=100)
     parser.add_argument("--acciones", type=int, default=500)
     parser.add_argument("--mutacion", type=float, default=0.3)
+    parser.add_argument("--elites", type=int, default=5, help="Élites directas (mejores por fitness)")
+    parser.add_argument("--padres", type=int, default=10, help="Padres por torneo (para reproducción)")
     parser.add_argument("--paralelo", action="store_true", help="Usar evaluación paralela")
     args = parser.parse_args()
 
@@ -475,5 +482,7 @@ if __name__ == "__main__":
         tamano_poblacion=args.poblacion,
         longitud_secuencia=args.acciones,
         tasa_mutacion=args.mutacion,
+        elites=args.elites,
+        padres=args.padres,
         usar_paralelo=args.paralelo,
     )
