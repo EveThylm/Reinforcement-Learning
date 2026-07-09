@@ -5,6 +5,7 @@ import json
 import constantes
 from personaje import Personaje
 from mapa import crear_mapa, WAYPOINT_Y_VALUES
+from fitness import calcular_fitness
 import multiprocessing
 import os
 
@@ -107,12 +108,8 @@ def _evaluar_individual(args):
                 if altura_actual <= wp_y + 10 and jugador.on_ground:
                     waypoints_visitados.add(i)
 
-    fitness_suelo = constantes.suelo_y - altura_maxima_suelo
-    fitness_aire = constantes.suelo_y - altura_maxima_aires
-    waypoint_bonus = len(waypoints_visitados) * 50
-    caida = altura_actual_suelo - altura_maxima_suelo if altura_actual_suelo > altura_maxima_suelo else 0
-    fitness = fitness_suelo * 1.0 + fitness_aire * 0.5 + waypoint_bonus - caida * 2
-    return max(0, fitness), altura_maxima_suelo, altura_maxima_aires
+    fitness, _ = calcular_fitness(altura_maxima_suelo, altura_maxima_aires, waypoints_visitados, altura_actual_suelo)
+    return fitness, altura_maxima_suelo, altura_maxima_aires
 
 
 class JuegoEvolutivo:
@@ -223,12 +220,8 @@ class JuegoEvolutivo:
                     if altura_actual <= wp_y + 10 and jugador.on_ground:
                         waypoints_visitados.add(i)
 
-        fitness_suelo = constantes.suelo_y - altura_maxima_suelo
-        fitness_aire = constantes.suelo_y - altura_maxima_aires
-        waypoint_bonus = len(waypoints_visitados) * 50
-        caida = altura_actual_suelo - altura_maxima_suelo if altura_actual_suelo > altura_maxima_suelo else 0
-        fitness = fitness_suelo * 1.0 + fitness_aire * 0.5 + waypoint_bonus - caida * 2
-        return max(0, fitness), altura_maxima_suelo, altura_maxima_aires
+        fitness, _ = calcular_fitness(altura_maxima_suelo, altura_maxima_aires, waypoints_visitados, altura_actual_suelo)
+        return fitness, altura_maxima_suelo, altura_maxima_aires
 
 
 def crear_secuencia_aleatoria(longitud=10):

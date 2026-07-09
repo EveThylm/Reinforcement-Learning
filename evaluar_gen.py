@@ -4,7 +4,8 @@ import time
 import json
 import constantes
 from personaje import Personaje
-from mapa import crear_mapa
+from mapa import crear_mapa, WAYPOINT_Y_VALUES
+from fitness import calcular_fitness
 
 
 def cargar_animaciones():
@@ -38,6 +39,8 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
         altura_maxima_suelo = constantes.suelo_y
         altura_maxima_aires = constantes.suelo_y
         pasos_en_suelo = 0
+        waypoints_visitados = set()
+        altura_actual_suelo = constantes.suelo_y
 
         ejecutando = True
         while ejecutando:
@@ -58,6 +61,8 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
                         altura_maxima_suelo = constantes.suelo_y
                         altura_maxima_aires = constantes.suelo_y
                         pasos_en_suelo = 0
+                        waypoints_visitados = set()
+                        altura_actual_suelo = constantes.suelo_y
                         print("Reiniciando...")
 
             accion = secuencia[accion_idx] if accion_idx < len(secuencia) else 0
@@ -132,8 +137,13 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
                 pasos_en_suelo += 1
                 if pasos_en_suelo >= 3 and altura_actual < altura_maxima_suelo:
                     altura_maxima_suelo = altura_actual
+                altura_actual_suelo = altura_actual
             else:
                 pasos_en_suelo = 0
+
+            for i, wp_y in enumerate(WAYPOINT_Y_VALUES):
+                if altura_actual <= wp_y + 10 and jugador.on_ground:
+                    waypoints_visitados.add(i)
 
             frame_en_accion += 1
             if frame_en_accion >= frames_por_accion:
@@ -150,9 +160,10 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
             font = pygame.font.SysFont(None, 30)
             progreso_suelo = max(0, min(100, int((constantes.suelo_y - altura_maxima_suelo) / (constantes.suelo_y - 50) * 100)))
             progreso_aire = max(0, min(100, int((constantes.suelo_y - altura_maxima_aires) / (constantes.suelo_y - 50) * 100)))
+            fitness_actual, _ = calcular_fitness(altura_maxima_suelo, altura_maxima_aires, waypoints_visitados, altura_actual_suelo)
             accion_nombre = ["Idle", "Izq Full", "Der Full", "Izq 3/4", "Der 3/4"][accion]
             texto = font.render(
-                f"Accion: {accion_nombre} ({accion_idx+1}/{len(secuencia)}) | Suelo: {progreso_suelo}% ({constantes.suelo_y - altura_maxima_suelo:.0f}px) | Aire: {progreso_aire}% ({constantes.suelo_y - altura_maxima_aires:.0f}px)",
+                f"Accion: {accion_nombre} ({accion_idx+1}/{len(secuencia)}) | Suelo: {progreso_suelo}% | Aire: {progreso_aire}% | WP: {len(waypoints_visitados)}/{len(WAYPOINT_Y_VALUES)} | Fitness: {fitness_actual:.0f}",
                 True, (255, 255, 255)
             )
             ventana.blit(texto, (10, 10))
@@ -162,7 +173,15 @@ def evaluar_con_render(secuencia, frames_por_accion=30, velocidad=0.3, repeticio
             reloj.tick(int(velocidad * 60))
 
             if accion_idx >= len(secuencia):
-                print(f"Secuencia completada. Suelo: {constantes.suelo_y - altura_maxima_suelo:.0f}px ({progreso_suelo}%) | Aire: {constantes.suelo_y - altura_maxima_aires:.0f}px ({progreso_aire}%)")
+                fitness_final, datos = calcular_fitness(altura_maxima_suelo, altura_maxima_aires, waypoints_visitados, altura_actual_suelo)
+                print(f"\n=== FITNESS BREAKDOWN ===")
+                print(f"  Suelo:     {datos['suelo_px']:.0f}px x 1.0  = {datos['suelo']:.1f}")
+                print(f"  Aire:      {datos['aire_px']:.0f}px x 0.5 = {datos['aire']:.1f}")
+                print(f"  Waypoints: {datos['waypoints_count']}/{datos['waypoints_total']} x 50 = {datos['waypoints']:.1f}")
+                print(f"  Caida:     {datos['caida_px']:.0f}px x -2   = {-datos['caida'] * 2:.1f}")
+                print(f"  {'='*30}")
+                print(f"  TOTAL FITNESS:          = {fitness_final:.1f}")
+                print(f"  Suelo: {progreso_suelo}% ({constantes.suelo_y - altura_maxima_suelo:.0f}px) | Aire: {progreso_aire}% ({constantes.suelo_y - altura_maxima_aires:.0f}px)")
                 time.sleep(2)
                 ejecutando = False
 

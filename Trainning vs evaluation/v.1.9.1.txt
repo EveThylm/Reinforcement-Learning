@@ -1,0 +1,11 @@
+=== Repeticion 1/1 ===
+
+=== FITNESS BREAKDOWN ===
+  Suelo:     820px x 1.0  = 820.0
+  Aire:      980px x 0.5 = 980.0
+  Waypoints: 14/40 x 50 = 700.0
+  Caida:     0px x -2   = 0.0
+  ==============================
+  TOTAL FITNESS:          = 2010.0
+  Suelo: 28% (820px) | Aire: 33% (980px)
+PS C:\Users\hecto\Documents\GitHub\Reinforcement Learning> 
